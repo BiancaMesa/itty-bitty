@@ -17,7 +17,7 @@ class ShortUrlController extends Controller
         $shortUrls = ShortUrl::where('user_id', $user->id)->get();
 
         return Inertia::render('Dashboard', [
-            'shortUrls' => $shortUrls,
+            'shortUrls' => $shortUrls, //We pass all URLs
         ]);
     }
 
@@ -43,47 +43,15 @@ class ShortUrlController extends Controller
         //$shortenedUrl = url('/itty-bitty/' . $shortUrlKey);
         $shortenedUrl = url('/' . $shortUrlKey);
 
-        
-
-        //This one changes the link of the browser from /dashboard to /shorten-url
-        // return Inertia::render('Dashboard', [
-        //     'shortenedUrl' => url('/short-url-key/' . $shortUrlKey),
-        // ]);
-        // return Inertia::render('Dashboard', [
-        //     'shortenedUrl' => url($shortUrlKey),
-        // ]);
-
-        // return redirect()->route('dashboard')->with('shortenedUrl', url($shortUrlKey));
-
         //Return Inertia response with the shortened URL
         return Inertia::render('Dashboard', [
+            'shortUrls' => ShortUrl::where('user_id', auth()->id())->get(),
             'shortenedUrl' => $shortenedUrl,
             'successMessage' => 'Your Short URL: ' . $shortenedUrl,
         ]);
     }
 
     // FUNCTION TO SHOW THE USER THE SHORTENED URL 
-    // public function show($code)
-    // {
-    //     $shortUrl = ShortUrl::where('short_url', $code)->firstOrFail();
-    //     $shortUrl->increment('visits');
-
-    //     return redirect($shortUrl->original_url);
-    // }
-
-    // public function show($shortUrlKey)
-    // {
-    //    dd($shortUrlKey);
-    // }
-
-    // public function show($shortUrlKey)
-    // {
-    //     $shortUrl = ShortUrl::where('short_url', $shortUrlKey)->firstOrFail();
-    //     $shortUrl->increment('visits');
-
-    //     return redirect($shortUrl->original_url);
-    // }
-
     public function show($shortUrlKey)
     {
         // Find the short URL record

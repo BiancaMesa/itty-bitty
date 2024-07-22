@@ -29,10 +29,18 @@ const submitForm = () => {
     });
 };
 
-// We use the usePage to get the shortenedUrl and successMessage from backend. 
+// We use the usePage to get the shortenedUrl and successMessage (props) from backend. 
 const { props } = usePage();
-const shortenedUrl = props.value.shortenedUrl || '';
-const successMessage = props.value.successMessage || '';
+const shortUrls = props.shortUrls || [];
+const shortenedUrl = props.shortenedUrl || '';
+const successMessage = props.successMessage || '';
+
+// const shortUrls = props.value.shortUrls || [];
+// const shortenedUrl = props.value.shortenedUrl || '';
+// const successMessage = props.value.successMessage || '';
+
+// Find the last (most recent) short URL
+const lastShortUrl = shortUrls.length ? shortUrls[shortUrls.length - 1] : null;
 
 //Reactive properties
 const successfulMessage = ref(successMessage);
@@ -76,12 +84,33 @@ const successfulMessage = ref(successMessage);
 
 
         <!-- // DISPLAY SHORTENED URL if there is one // -->
-        <div v-if="shortenedUrl" class="mt-4 text-center">
+        <!-- <div v-if="shortenedUrl" class="mt-4 text-center">
             <h2 class="text-black-800">Shortened URL: 
                 <a :href="shortenedUrl" class="text-indigo-600" target="_blank" rel="noopener noreferrer">
                     {{ shortenedUrl }}
                 </a>
             </h2>
+        </div> -->
+
+        <!-- Display ALL existing short URLs -->
+        <!-- <div v-if="shortUrls.length" class="mt-4 text-center">
+            <h3 class="text-lg font-semibold">Your Shortened URLs:</h3>
+            <ul>
+                <li v-for="url in shortUrls" :key="url.id">
+                    <a :href="url.original_url" target="_blank" rel="noopener noreferrer"> -->
+                        <!-- {{ url.short_url }} (Original: {{ url.original_url }}) -->
+                        <!-- {{ url.short_url }}
+                    </a>
+                </li>
+            </ul>
+        </div> -->
+
+           <!-- Display existing short URLs -->
+           <div v-if="lastShortUrl" class="mt-4 text-center">
+            <h3 class="text-lg font-semibold">Your Last Shortened URL:</h3>
+            <a :href="lastShortUrl.original_url" target="_blank" rel="noopener noreferrer">
+                {{ lastShortUrl.short_url }}
+            </a>
         </div>
 
     </AuthenticatedLayout>

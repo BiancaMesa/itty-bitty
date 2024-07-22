@@ -28,12 +28,13 @@ Route::middleware('auth')->group(function () {
     Route::get('/{shortUrlKey}', [ShortUrlController::class, 'show'])->name('short.show');
 });
 
-Route::get('/dashboard', function () {
-    return Inertia::render('Dashboard', [
-        'shortenedUrl' => session('shortenedUrl')
-        //'shortenedUrl' => url('/short-url-key/' . $shortUrlKey)
-    ]);
-})->middleware(['auth', 'verified'])->name('dashboard');
+//REMOVE ???
+// Route::get('/dashboard', function () {
+//     return Inertia::render('Dashboard', [
+//         'shortenedUrl' => session('shortenedUrl')
+//         //'shortenedUrl' => url('/short-url-key/' . $shortUrlKey)
+//     ]);
+// })->middleware(['auth', 'verified'])->name('dashboard');
 
 
 Route::post('/shorten-url', [ShortUrlController::class, 'short'])->name('short.url');
