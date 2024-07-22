@@ -74,11 +74,11 @@ import { Head } from '@inertiajs/vue3';
         </div> -->
         
         <!-- // NEW - VERIFY VUE CODE// -->
-        <section class="py-12">
-            <form @submit.prevent="submitForm" >
-                <label for="long_url">Enter Long URL:</label>
-                <input type="text" v-model="longUrl" name="long_url" id="long_url">
-                <button type="submit">Submit</button>
+        <section class="py-12 flex justify-center">
+            <form class="flex flex-col" @submit.prevent="submitForm" method="POST" action="{{ route('short.url') }}">
+                <label class="text-2xl text-sky-700" for="original_url">Enter Long URL:</label>
+                <input class="border border-gray-300 rounded-lg" type="url" v-model="original_url" name="original_url" id="original_url">
+                <button class="m-2 px-6 py-2 bg-sky-200 hover:bg-sky-300 rounded-lg" type="submit">Submit</button>
             </form>
         </section>
 

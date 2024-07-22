@@ -8,6 +8,6 @@ class ShortUrlController extends Controller
 {
     public function short(Request $request)
     {
-        dd($request);
+      dd($request);
     }
 }
