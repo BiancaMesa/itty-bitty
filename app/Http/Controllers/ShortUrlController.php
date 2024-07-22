@@ -12,26 +12,7 @@ class ShortUrlController extends Controller
     // FUNCTION TO SHORTEN THE URL FROM THE GIVEN ORIGINAL URL
     public function short(ShortRequest $request)
     {
-        //If there is a new url that the user has inserted, we create a new url with the create method and collect it in the $new_url variable.
-        // if($request->original_url) {
-        //     $new_url = ShortUrl::create([
-        //         'original_url' => $request->original_url
-        //     ]);
-
-                //If a $new_url variable has been created, we create a $short_url variable with the base_convert method. Then we update the $new_url with the $short_url. 
-        //     if($new_url) {
-        //         $short_url = base_convert($new_url->id, 10,36);
-        //         $new_url->update([
-        //             'short_url' => $short_url
-        //         ]);
-
-        //         return back();
-        //     }
-        // }
-        // return back();
-
-
-        // We validate 
+        // We validate the input URL
         $request->validate([
             'original_url' => 'required|url',
         ]);
@@ -47,20 +28,10 @@ class ShortUrlController extends Controller
         ]);
 
         // Build the full shortened URL
-        $shortenedUrl = url('/itty-bitty/' . $shortUrlKey);
-
-        // $shortenedUrl = url('/short-url-key/' . $shortUrlKey);
-        // Log::info('Shortened URL', ['shortenedUrl' => $shortenedUrl]);
-    
-        // // Store the shortened URL in the session
-        // $request->session()->flash('shortenedUrl', $shortenedUrl);
+        //$shortenedUrl = url('/itty-bitty/' . $shortUrlKey);
+        $shortenedUrl = url('/' . $shortUrlKey);
 
         
-        // Store the shortened URL in the session
-        // $request->session()->flash('shortenedUrl', url('/itty-bitty/' . $shortUrlKey));
-
-        // Debug session data
-        // dd($request->session()->all());
 
         //This one changes the link of the browser from /dashboard to /shorten-url
         // return Inertia::render('Dashboard', [
@@ -77,10 +48,6 @@ class ShortUrlController extends Controller
             'shortenedUrl' => $shortenedUrl,
             'successMessage' => 'Your Short URL: ' . $shortenedUrl,
         ]);
-
-        // Redirect back to the dashboard
-        //return redirect()->route('dashboard');
-        // return redirect()->back()->with('success_message', 'Your Short URL: <a :href="' . url($short_url) . '">'. url($short_url) . '</a>');
     }
 
     // FUNCTION TO SHOW THE USER THE SHORTENED URL WE HAVE CREATED
@@ -92,10 +59,10 @@ class ShortUrlController extends Controller
     //     return redirect($shortUrl->original_url);
     // }
 
-    public function show($code)
-    {
-       dd($code);
-    }
+    // public function show($shortUrlKey)
+    // {
+    //    dd($shortUrlKey);
+    // }
 
     // public function show($shortUrlKey)
     // {
@@ -104,4 +71,16 @@ class ShortUrlController extends Controller
 
     //     return redirect($shortUrl->original_url);
     // }
+
+    public function show($shortUrlKey)
+    {
+        // Find the short URL record
+        $shortUrl = ShortUrl::where('short_url', $shortUrlKey)->firstOrFail();
+
+        // Increment the click count
+        $shortUrl->increment('clicks');
+
+        // Redirect to the original URL
+        return redirect($shortUrl->original_url);
+    }
 }

@@ -16,10 +16,8 @@ return new class extends Migration
             $table->foreignId('user_id')->nullable()->constrained()->onDelete('cascade');
             $table->text('original_url');
             $table->string('short_url')->nullable();
-            $table->string('clicks')->default(0);
+            $table->unsignedInteger('clicks')->default(0);
             $table->timestamps();
-
-            // $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
         });
     }
 
