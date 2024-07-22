@@ -4,11 +4,23 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\ShortRequest;
 use App\Models\ShortUrl;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 use Inertia\Inertia;
 
 class ShortUrlController extends Controller
 {
+    public function index()
+    {
+        // Display the user's short URLs on the dashboard
+        $user = auth()->user();
+        $shortUrls = ShortUrl::where('user_id', $user->id)->get();
+
+        return Inertia::render('Dashboard', [
+            'shortUrls' => $shortUrls,
+        ]);
+    }
+
     // FUNCTION TO SHORTEN THE URL FROM THE GIVEN ORIGINAL URL
     public function short(ShortRequest $request)
     {
@@ -50,7 +62,7 @@ class ShortUrlController extends Controller
         ]);
     }
 
-    // FUNCTION TO SHOW THE USER THE SHORTENED URL WE HAVE CREATED
+    // FUNCTION TO SHOW THE USER THE SHORTENED URL 
     // public function show($code)
     // {
     //     $shortUrl = ShortUrl::where('short_url', $code)->firstOrFail();
