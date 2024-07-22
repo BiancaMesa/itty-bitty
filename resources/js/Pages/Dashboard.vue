@@ -58,16 +58,18 @@ const fullShortenedUrl = lastShortUrl ? `${baseUrl}${lastShortUrl.short_url}` : 
 const successfulMessage = ref(successMessage);
 </script>
 
-<template>
+<template >
     <Head title="Dashboard" />
 
-    <AuthenticatedLayout>
+    <AuthenticatedLayout >
         <!-- <template #header>
             <h2 class="font-semibold text-xl text-gray-800 leading-tight">Dashboard</h2>
         </template> -->
-        
+
+        <main class="w-screen h-screen bg-white bg-[radial-gradient(ellipse_80%_80%_at_50%_-20%,rgba(120,119,198,0.3),rgba(255,255,255,0))]">
+
         <!-- // URL SHORTENING FORM SECTION // -->
-        <section class="py-12 flex justify-center text-center mt-16">
+        <section class="py-16 flex justify-center text-center">
             <form class="flex flex-col" @submit.prevent="submitForm">
                 <label class=" text-sky-700 mb-4 font-extrabold  md:text-3xl" for="original_url">Enter Your Long URL:</label>
 
@@ -96,9 +98,9 @@ const successfulMessage = ref(successMessage);
 
 
            <!-- Display existing short URLs -->
-           <div v-if="lastShortUrl" class="mt-4 text-center">
+           <div v-if="lastShortUrl" class="mt-4 text-center" >
             <h3 class="font-semibold mb-2 text-cyan-600 mb-8  md:text-3xl">Your Shortened URL:</h3>
-            <a class="m-2 px-8 py-4 rounded border border-slate-800 bg-white text-gray-900 hover:text-sky-600" :href="lastShortUrl.original_url" target="_blank" rel="noopener noreferrer">
+            <a class="m-2 px-8 py-4 rounded border border-slate-800 bg-white text-gray-900 font-bold hover:text-sky-600" :href="lastShortUrl.original_url" target="_blank" rel="noopener noreferrer">
                 {{ lastShortUrl.short_url }}
             </a>
         </div>
@@ -106,10 +108,11 @@ const successfulMessage = ref(successMessage);
          <!-- Display existing short URLs -->
          <div v-if="fullShortenedUrl" class="mt-10 text-center">
             <h3 class="font-semibold mb-2 text-cyan-600 mb-8  md:text-3xl">Your Shortened URL:</h3>
-            <a class="m-2 px-8 py-4 rounded border border-slate-800 bg-white text-gray-900 hover:text-sky-600" :href="fullShortenedUrl" target="_blank" rel="noopener noreferrer">
+            <a class=" px-8 py-4 rounded border border-slate-800 bg-white text-gray-900 font-bold hover:text-sky-600" :href="fullShortenedUrl" target="_blank" rel="noopener noreferrer">
                 {{ fullShortenedUrl }} 
             </a>
             </div>
 
+        </main>
     </AuthenticatedLayout>
 </template>
