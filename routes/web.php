@@ -25,6 +25,7 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-Route::post('/short', [ShortUrlController::class, 'short'])->name('short.url');
+Route::post('/shorten-url', [ShortUrlController::class, 'short'])->name('short.url');
+Route::get('/short-url-key', [ShortUrlController::class, 'show'])->name('redirect.url');
 
 require __DIR__.'/auth.php';

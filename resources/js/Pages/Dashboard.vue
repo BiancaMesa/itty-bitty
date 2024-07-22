@@ -54,7 +54,25 @@ const shortenedUrl = usePage().props.value.shortenedUrl;
 
 <script setup>
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
-import { Head } from '@inertiajs/vue3';
+//import { Head } from '@inertiajs/vue3';
+import { ref } from 'vue';
+import { Head, useForm, usePage } from '@inertiajs/vue3';
+
+// We define the form data
+const form = useForm({
+    original_url: ''
+});
+
+// We define the submit function
+const submitForm = () => {
+    form.post(route('short.url'), {
+        onSuccess: () => {
+            form.reset();
+        },
+    });
+};
+
+// const shortenedUrl = usePage().props.value.shortenedUrl;
 </script>
 
 <template>
@@ -64,23 +82,21 @@ import { Head } from '@inertiajs/vue3';
         <template #header>
             <h2 class="font-semibold text-xl text-gray-800 leading-tight">Dashboard</h2>
         </template>
-
-        <!-- <div class="py-12">
-            <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-                <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                    <div class="p-6 text-gray-900">You're logged in!</div>
-                </div>
-            </div>
-        </div> -->
         
-        <!-- // NEW - VERIFY VUE CODE// -->
+        <!-- // URL SHORTENING FORM SECTION // -->
         <section class="py-12 flex justify-center">
-            <form class="flex flex-col" @submit.prevent="submitForm" method="POST" action="{{ route('short.url') }}">
+            <form class="flex flex-col" @submit.prevent="submitForm">
                 <label class="text-2xl text-sky-700" for="original_url">Enter Long URL:</label>
-                <input class="border border-gray-300 rounded-lg" type="url" v-model="original_url" name="original_url" id="original_url">
+                <input class="border border-gray-300 rounded-lg" type="url" v-model="form.original_url" name="original_url" id="original_url" required>
                 <button class="m-2 px-6 py-2 bg-sky-200 hover:bg-sky-300 rounded-lg" type="submit">Submit</button>
             </form>
         </section>
+
+
+        <!-- // DISPLAY SHORTENED URL if available // -->
+        <!-- <div v-if="shortenedUrl" class="mt-4 text-center">
+            <p>Shortened URL: <a :href="shortenedUrl" class="text-indigo-600" target="_blank">{{ shortenedUrl }}</a></p>
+        </div> -->
 
     </AuthenticatedLayout>
 </template>
