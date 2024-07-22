@@ -37,8 +37,8 @@ Route::middleware('auth')->group(function () {
 // })->middleware(['auth', 'verified'])->name('dashboard');
 
 
-Route::post('/shorten-url', [ShortUrlController::class, 'short'])->name('short.url');
+Route::post('/dashboard', [ShortUrlController::class, 'short'])->name('short.url');
 Route::get('/{shortUrlKey}', [ShortUrlController::class, 'show'])->name('short.show');
 
 
-require __DIR__.'/auth.php';
+//require __DIR__.'/auth.php';

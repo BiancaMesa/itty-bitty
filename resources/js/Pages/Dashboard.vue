@@ -14,17 +14,27 @@ const errorMessage = ref('');
 // Submit function for the form ---> POST 
 const submitForm = () => {
     form.post(route('short.url'), {
-        onSuccess: () => {
-            form.reset();  // Reset form after successful submission if needed //REMOVE ???
+        // onSuccess: () => {
+        //     form.reset();  // Reset form after successful submission if needed //REMOVE ???
+        //     errorMessage.value = ''; // Clear any previous error message
+        // },
+         // Expecting JSON response
+         onSuccess: (data) => {
+            shortenedUrl.value = data.shortenedUrl;
+            successMessage.value = data.successMessage;
+            form.reset(); // Reset form after successful submission
             errorMessage.value = ''; // Clear any previous error message
         },
         // Handling potential errors
+        // onError: (errors) => {
+        //     if (errors.original_url) {
+        //         errorMessage.value = 'Please, introduce a valid URL';
+        //     } else {
+        //         errorMessage.value = 'An unexpected error occurred. Please try again.';
+        //     }
+        // },
         onError: (errors) => {
-            if (errors.original_url) {
-                errorMessage.value = 'Please, introduce a valid URL';
-            } else {
-                errorMessage.value = 'An unexpected error occurred. Please try again.';
-            }
+            errorMessage.value = errors.original_url ? 'Please, introduce a valid URL' : 'An unexpected error occurred. Please try again.';
         }
     });
 };
@@ -32,15 +42,17 @@ const submitForm = () => {
 // We use the usePage to get the shortenedUrl and successMessage (props) from backend. 
 const { props } = usePage();
 const shortUrls = props.shortUrls || [];
-const shortenedUrl = props.shortenedUrl || '';
+//const shortenedUrl = props.shortenedUrl || '';
 const successMessage = props.successMessage || '';
 
-// const shortUrls = props.value.shortUrls || [];
-// const shortenedUrl = props.value.shortenedUrl || '';
-// const successMessage = props.value.successMessage || '';
+// Base URL for the shortened links
+const baseUrl = 'https://itty-bitty.com/';
 
-// Find the last (most recent) short URL
+// Find the last (most recent) url shortened key
 const lastShortUrl = shortUrls.length ? shortUrls[shortUrls.length - 1] : null;
+
+// Compute the full shortened URL
+const fullShortenedUrl = lastShortUrl ? `${baseUrl}${lastShortUrl.short_url}` : '';
 
 //Reactive properties
 const successfulMessage = ref(successMessage);
@@ -55,12 +67,12 @@ const successfulMessage = ref(successMessage);
         </template>
         
         <!-- // URL SHORTENING FORM SECTION // -->
-        <section class="py-12 flex justify-center">
+        <section class="py-12 flex justify-center text-center">
             <form class="flex flex-col" @submit.prevent="submitForm">
                 <label class="text-2xl text-sky-700" for="original_url">Enter Long URL:</label>
 
                 <input 
-                    class="border border-gray-300 rounded-lg" 
+                    class="border border-gray-300 rounded-lg w-full sm:w-96" 
                     type="url" 
                     v-model="form.original_url" 
                     name="original_url" 
@@ -68,50 +80,36 @@ const successfulMessage = ref(successMessage);
                     required
                 >
 
-                <!-- Display validation errors  -->
-                <span v-if="errorMessage" class="text-red-400 m-2 p-2">
-                    {{ errorMessage }}
-                </span>
-
                 <button class="m-2 px-6 py-2 bg-sky-200 hover:bg-sky-300 rounded-lg" type="submit">Submit</button>
 
                 <!-- Display Shorten URL if successful -->
-                <div v-if="successfulMessage" class="text-green-500 m-2 p-2">
+                <!-- <div v-if="successfulMessage" class="text-green-500 m-2 p-2">
                     {{ successfulMessage }}
-                </div>
+                </div> -->
             </form>
         </section>
 
+        <!-- Display validation errors  -->
+        <span v-if="errorMessage" class="text-red-400 m-2 p-2">
+            {{ errorMessage }}
+        </span>
 
-        <!-- // DISPLAY SHORTENED URL if there is one // -->
-        <!-- <div v-if="shortenedUrl" class="mt-4 text-center">
-            <h2 class="text-black-800">Shortened URL: 
-                <a :href="shortenedUrl" class="text-indigo-600" target="_blank" rel="noopener noreferrer">
-                    {{ shortenedUrl }}
-                </a>
-            </h2>
-        </div> -->
-
-        <!-- Display ALL existing short URLs -->
-        <!-- <div v-if="shortUrls.length" class="mt-4 text-center">
-            <h3 class="text-lg font-semibold">Your Shortened URLs:</h3>
-            <ul>
-                <li v-for="url in shortUrls" :key="url.id">
-                    <a :href="url.original_url" target="_blank" rel="noopener noreferrer"> -->
-                        <!-- {{ url.short_url }} (Original: {{ url.original_url }}) -->
-                        <!-- {{ url.short_url }}
-                    </a>
-                </li>
-            </ul>
-        </div> -->
 
            <!-- Display existing short URLs -->
            <div v-if="lastShortUrl" class="mt-4 text-center">
-            <h3 class="text-lg font-semibold">Your Last Shortened URL:</h3>
-            <a :href="lastShortUrl.original_url" target="_blank" rel="noopener noreferrer">
+            <h3 class="text-lg font-semibold">Your Shortened URL:</h3>
+            <a class="hover:text-sky-600" :href="lastShortUrl.original_url" target="_blank" rel="noopener noreferrer">
                 {{ lastShortUrl.short_url }}
             </a>
         </div>
+
+         <!-- Display existing short URLs -->
+         <div v-if="fullShortenedUrl" class="mt-4 text-center">
+            <h3 class="text-lg font-semibold">Your Shortened URL:</h3>
+            <a class="hover:text-sky-600" :href="fullShortenedUrl" target="_blank" rel="noopener noreferrer">
+                {{ fullShortenedUrl }} 
+            </a>
+            </div>
 
     </AuthenticatedLayout>
 </template>

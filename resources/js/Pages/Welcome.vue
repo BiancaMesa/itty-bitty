@@ -38,10 +38,10 @@ function handleImageError() {
             class="relative flex flex-col items-center justify-center selection:bg-[#FF2D20] selection:text-white"
         >
             <div class="relative w-full max-w-2xl px-6 lg:max-w-7xl">
-                <header class="grid grid-cols-2 items-center gap-2 py-10 lg:grid-cols-3">
+                <header class="grid grid-cols-2 items-center gap-2 py-4 lg:grid-cols-3">
                     <div class="flex lg:justify-center lg:col-start-2">
                     </div>
-                    <nav v-if="canLogin" class="-mx-3 mt-0 flex flex-1 justify-end">
+                    <nav v-if="canLogin" class="-mx-3 mt-0 flex flex-1 justify-end pt-3">
                         <Link
                             v-if="$page.props.auth.user"
                             :href="route('dashboard')"
@@ -69,9 +69,12 @@ function handleImageError() {
                     </nav>
                 </header>
 
-                <main class="mt-6 flex flex-col justify-center min-h-screen">
-                    <h1 class="text-3xl text-center text-teal-900">Welcome to Itty Bitty, Your URL Shortener.</h1>
-                    <h2 class="text-2xl text-center">Register, Log in or go to Dashboard to shorten your URL.</h2>
+                <main class="-mt-16 pb-16 flex flex-col justify-center min-h-screen text-center items-center">
+                    <!-- <h1 class="mb-4 text-4xl font-extrabold leading-none tracking-tight text-gray-900 md:text-5xl lg:text-6xl dark:text-white">Welcome to Itty Bitty, Your URL Shortener.</h1> -->
+
+                    <h1 class="mb-4 text-3xl font-extrabold text-gray-900 dark:text-white md:text-5xl lg:text-6xl">Welcome to <span class="text-transparent bg-clip-text bg-gradient-to-r to-emerald-600 from-sky-400">Itty Bitty</span>, Your URL Shortener.</h1>
+
+                    <h2 class="text-2xl text-center">Register or log in to shorten your URL.</h2>
                 </main>
 
                 <!-- <footer class="py-16 text-center text-sm text-black dark:text-white/70">

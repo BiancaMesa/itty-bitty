@@ -41,7 +41,18 @@ class ShortUrlController extends Controller
 
         // Build the full shortened URL
         //$shortenedUrl = url('/itty-bitty/' . $shortUrlKey);
+        //$shortenedUrl = url('http://itty-bitty/' . $shortUrlKey);
+        // $baseurl = url('http://itty-bitty/');
+        // $shortenedUrl = url('/' . $baseurl . $shortUrlKey);
         $shortenedUrl = url('/' . $shortUrlKey);
+
+        // Return JSON response for AJAX
+        // if ($request->expectsJson()) {
+        //     return response()->json([
+        //         'shortenedUrl' => $shortenedUrl,
+        //         'successMessage' => 'Your Short URL: ' . $shortenedUrl,
+        //     ]);
+        // }
 
         //Return Inertia response with the shortened URL
         return Inertia::render('Dashboard', [
@@ -61,6 +72,6 @@ class ShortUrlController extends Controller
         $shortUrl->increment('clicks');
 
         // Redirect to the original URL
-        return redirect($shortUrl->original_url);
+        return redirect()->to($shortUrl->original_url);
     }
 }
