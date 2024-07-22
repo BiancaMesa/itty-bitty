@@ -63,7 +63,7 @@ const form = useForm({
     original_url: ''
 });
 
-// We define the submit function
+// We define the submit function ---> POST 
 const submitForm = () => {
     form.post(route('short.url'), {
         onSuccess: () => {
