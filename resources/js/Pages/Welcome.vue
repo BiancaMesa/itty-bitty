@@ -29,19 +29,19 @@ function handleImageError() {
 <template>
     <Head title="Welcome" />
     <div class="bg-gray-50 text-black/50 dark:bg-black dark:text-white/50">
-        <img
+        <!-- <img
             id="background"
             class="absolute -left-20 top-0 max-w-[877px]"
             src="https://laravel.com/assets/img/welcome/background.svg"
-        />
+        /> -->
         <div
-            class="relative min-h-screen flex flex-col items-center justify-center selection:bg-[#FF2D20] selection:text-white"
+            class="relative flex flex-col items-center justify-center selection:bg-[#FF2D20] selection:text-white"
         >
             <div class="relative w-full max-w-2xl px-6 lg:max-w-7xl">
                 <header class="grid grid-cols-2 items-center gap-2 py-10 lg:grid-cols-3">
                     <div class="flex lg:justify-center lg:col-start-2">
                     </div>
-                    <nav v-if="canLogin" class="-mx-3 flex flex-1 justify-end">
+                    <nav v-if="canLogin" class="-mx-3 mt-0 flex flex-1 justify-end">
                         <Link
                             v-if="$page.props.auth.user"
                             :href="route('dashboard')"
@@ -69,8 +69,9 @@ function handleImageError() {
                     </nav>
                 </header>
 
-                <main class="mt-6">
-                    <h1>Welcome to Itty Bitty, Your URL Shortener</h1>
+                <main class="mt-6 flex flex-col justify-center min-h-screen">
+                    <h1 class="text-3xl text-center text-teal-900">Welcome to Itty Bitty, Your URL Shortener.</h1>
+                    <h2 class="text-2xl text-center">Register, Log in or go to Dashboard to shorten your URL.</h2>
                 </main>
 
                 <!-- <footer class="py-16 text-center text-sm text-black dark:text-white/70">

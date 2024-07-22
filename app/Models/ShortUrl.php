@@ -9,5 +9,25 @@ class ShortUrl extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['original_url', 'short_url'];
+    // protected $fillable = ['original_url', 'short_url'];
+
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array<int, string>
+     */
+    protected $fillable = [
+        'user_id',
+        'original_url',
+        'short_url',
+        'clicks',
+    ];
+
+    /**
+     * Get the user that owns the ShortUrl.
+     */
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 }
