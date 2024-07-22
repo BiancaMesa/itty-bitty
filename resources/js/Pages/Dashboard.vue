@@ -66,12 +66,12 @@ const successfulMessage = ref(successMessage);
             <h2 class="font-semibold text-xl text-gray-800 leading-tight">Dashboard</h2>
         </template> -->
 
-        <main class="w-screen h-screen bg-white bg-[radial-gradient(ellipse_80%_80%_at_50%_-20%,rgba(120,119,198,0.3),rgba(255,255,255,0))]">
+        <main class="w-screen h-screen bg-white bg-gradient-to-b from-sky-100 via-emerald-50 via-white to-emerald-100">
 
         <!-- // URL SHORTENING FORM SECTION // -->
         <section class="py-16 flex justify-center text-center">
             <form class="flex flex-col" @submit.prevent="submitForm">
-                <label class=" text-sky-700 mb-4 font-extrabold  md:text-3xl" for="original_url">Enter Your Long URL:</label>
+                <label class="text-sky-800 mb-4 font-extrabold  md:text-3xl" for="original_url">Enter Your Long URL:</label>
 
                 <input 
                     class="border border-gray-300 rounded-lg w-full sm:w-96 mt-2" 
@@ -82,7 +82,7 @@ const successfulMessage = ref(successMessage);
                     required
                 >
 
-                <button class="m-2 px-6 py-2 bg-sky-200 font-bold  text-gray-700 hover:bg-sky-300 rounded-lg" type="submit">Submit</button>
+                <button class="m-2 px-6 py-2 bg-sky-200 font-bold  text-gray-700 hover:bg-sky-300 hover:text-gray-800 rounded-lg" type="submit">Submit</button>
 
                 <!-- Display Shorten URL if successful -->
                 <!-- <div v-if="successfulMessage" class="text-green-500 m-2 p-2">
@@ -99,7 +99,7 @@ const successfulMessage = ref(successMessage);
 
            <!-- Display existing short URLs -->
            <div v-if="lastShortUrl" class="mt-4 text-center" >
-            <h3 class="font-semibold mb-2 text-cyan-600 mb-8  md:text-3xl">Your Shortened URL:</h3>
+            <h3 class="font-semibold mb-2 text-cyan-700 mb-8  md:text-3xl">Your Shortened URL:</h3>
             <a class="m-2 px-8 py-4 rounded border border-slate-800 bg-white text-gray-900 font-bold hover:text-sky-600" :href="lastShortUrl.original_url" target="_blank" rel="noopener noreferrer">
                 {{ lastShortUrl.short_url }}
             </a>
@@ -107,7 +107,7 @@ const successfulMessage = ref(successMessage);
 
          <!-- Display existing short URLs -->
          <div v-if="fullShortenedUrl" class="mt-10 text-center">
-            <h3 class="font-semibold mb-2 text-cyan-600 mb-8  md:text-3xl">Your Shortened URL:</h3>
+            <h3 class="font-semibold mb-2 text-cyan-700 mb-8  md:text-3xl">Your Shortened URL:</h3>
             <a class=" px-8 py-4 rounded border border-slate-800 bg-white text-gray-900 font-bold hover:text-sky-600" :href="fullShortenedUrl" target="_blank" rel="noopener noreferrer">
                 {{ fullShortenedUrl }} 
             </a>
