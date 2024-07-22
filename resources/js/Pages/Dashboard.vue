@@ -66,7 +66,8 @@ const successfulMessage = ref(successMessage);
             <h2 class="font-semibold text-xl text-gray-800 leading-tight">Dashboard</h2>
         </template> -->
 
-        <main class="w-screen h-screen bg-white bg-gradient-to-b from-sky-100 via-emerald-50 via-white to-emerald-100">
+        <!-- <main class="w-screen h-screen bg-white bg-gradient-to-b from-sky-100 via-emerald-50 via-white via-emerald-50 to-emerald-100"> -->
+        <main class="w-screen h-screen bg-sky-50">
 
         <!-- // URL SHORTENING FORM SECTION // -->
         <section class="py-16 flex justify-center text-center">
