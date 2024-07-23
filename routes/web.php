@@ -21,24 +21,14 @@ require __DIR__.'/auth.php';
 // Authenticated routes
 Route::middleware('auth')->group(function () {
     Route::get('/dashboard', [ShortUrlController::class, 'index'])->name('dashboard');
-    Route::post('/shorten-url', [ShortUrlController::class, 'short'])->name('short.url');
+    Route::post('/dashboard', [ShortUrlController::class, 'short'])->name('short.url');
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
-    Route::get('/{shortUrlKey}', [ShortUrlController::class, 'show'])->name('short.show');
 });
 
-//REMOVE ???
-// Route::get('/dashboard', function () {
-//     return Inertia::render('Dashboard', [
-//         'shortenedUrl' => session('shortenedUrl')
-//         //'shortenedUrl' => url('/short-url-key/' . $shortUrlKey)
-//     ]);
-// })->middleware(['auth', 'verified'])->name('dashboard');
+// Route::post('/dashboard', [ShortUrlController::class, 'short'])->name('short.url');
 
-
-Route::post('/dashboard', [ShortUrlController::class, 'short'])->name('short.url');
+//Public route for shortened URL
 Route::get('/{shortUrlKey}', [ShortUrlController::class, 'show'])->name('short.show');
 
-
-//require __DIR__.'/auth.php';
