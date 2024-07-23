@@ -1,5 +1,5 @@
 <script setup>
-import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
+//import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import { ref, onMounted } from 'vue'; //needed for reactive variables
 import { useForm, usePage } from '@inertiajs/vue3';
 
@@ -10,12 +10,14 @@ const form = useForm({
 
 // Initialize the variable to display error message
 const errorMessage = ref('');
+// Initialize the reactive variable for the shortened URL
+const fullShortenedUrl = ref('');
 
 // Function to submit form ---> POST 
 const submitForm = () => {
     // URL format validation 
     // Before submitting the form, We check the input follows the regex pattern we defined 
-    const urlPattern = new RegExp(/^https:\/\/www\./);
+    const urlPattern = new RegExp(/^(https:\/\/(www\.)?|www\.)/);
 
     if (!urlPattern.test(form.original_url)) {
         errorMessage.value = 'The URL must start with "https://www."';
@@ -23,6 +25,12 @@ const submitForm = () => {
     }
 
     form.post(route('short.url'), {
+        // onSuccess: (data) => {
+        //     // Update the reactive properties with the new URL
+        //     fullShortenedUrl.value = data.shortenedUrl;
+        //     form.reset();
+        //     errorMessage.value = '';
+        // },
         // Handling potential errors
         onError: (errors) => {
             errorMessage.value = errors.original_url ? errors.original_url : 'An unexpected error occurred. Please try again.';
@@ -33,10 +41,14 @@ const submitForm = () => {
 
 // We use the usePage to get the props from backend 
 const { props } = usePage();
-const latestFullShortenedUrl = props.latestFullShortenedUrl || '';
-//Reactive properties
-const fullShortenedUrl = latestFullShortenedUrl || '';
-//const fullShortenedUrl = ref('');
+// const latestFullShortenedUrl = props.latestFullShortenedUrl || '';
+// //Reactive properties
+// const fullShortenedUrl = latestFullShortenedUrl || '';
+// //const fullShortenedUrl = ref('');
+
+const initialFullShortenedUrl = props.latestFullShortenedUrl || '';
+// Set the initial value of fullShortenedUrl
+fullShortenedUrl.value = initialFullShortenedUrl;
 
 </script>
 

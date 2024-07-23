@@ -36,8 +36,8 @@ const deleteUrl = async (id) => {
 
 
 <template>
-    <section class="py-16 p-20 h-screen">
-        <h2 class="text-sky-800 mb-4 font-extrabold text-center text-3xl">Manage Your URLs</h2>
+    <section class="py-16 p-20 h-screen pb-0">
+        <h2 class="text-sky-800 pb-4 font-extrabold text-center text-3xl">Manage Your URLs</h2>
         <div v-if="shortUrls.length === 0" class="text-center">
             <p>You have no URLs to manage.</p>
         </div>
@@ -46,7 +46,6 @@ const deleteUrl = async (id) => {
                 <li v-for="url in shortUrls" :key="url.id" class="mb-4">
                     <div class="flex items-center justify-between p-4 border border-gray-300 rounded-lg">
                         <div>
-                             <!-- <p><strong>Original URL:</strong> {{ url.original_url }}</p>  -->
                              <p><strong>Shortened URL:</strong> 
                                 <a :href="url.full_shortened_url" target="_blank" rel="noopener noreferrer">    
                                     {{ url.full_shortened_url }}

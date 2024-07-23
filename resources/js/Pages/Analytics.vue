@@ -59,23 +59,24 @@
   </script>
 
 <template>
-    <main class="w-screen h-screen bg-sky-50 p-8 flex flex-col align-center text-center">
+    <main class="w-screen h-screen bg-sky-50 p-8 flex flex-col items-center">
       <h1 class="text-2xl font-bold mb-4">URL Analytics</h1>
   
       <!-- ECharts Container with defined height and width-->
-      <div ref="chartContainer" class="w-full h-80 text-center">
+      <div ref="chartContainer" class="w-full h-80 flex self-center justify-content md:h-96 lg:h-[500px]">
 
       </div>
   
-      <!-- <table class="min-w-full bg-white border border-gray-200 mt-8">
+      <div class="overflow-x-auto mt-10">
+        <table class="w-96 bg-white border border-gray-200 mt-8">
         <thead>
           <tr>
-            <th class="py-2 px-4 border-b">Original URL</th>
-            <th class="py-2 px-4 border-b">Shortened URL</th>
-            <th class="py-2 px-4 border-b">Clicks</th>
+            <th class="py-2 px-4 border-b text-left">Original URL</th>
+          <th class="py-2 px-4 border-b text-left">Shortened URL</th>
+          <th class="py-2 px-4 border-b text-left">Clicks</th>
           </tr>
         </thead>
-        <tbody>
+        <tbody class="min-w-full bg-white border border-gray-200 mt-8 text-sm">
           <tr v-for="shortUrl in shortUrls" :key="shortUrl.id">
             <td class="py-2 px-4 border-b">{{ shortUrl.original_url }}</td>
             <td class="py-2 px-4 border-b">
@@ -86,13 +87,10 @@
             <td class="py-2 px-4 border-b">{{ shortUrl.clicks }}</td>
           </tr>
         </tbody>
-      </table> -->
+      </table>
+      </div>
+      
     </main>
   </template>
   
-  
-  
-  <style scoped>
-  /* Add any additional styles for the chart container if needed */
-  </style>
   

@@ -57,6 +57,8 @@ class ShortUrlController extends Controller
             return redirect()->route('dashboard')->with([
                 'shortenedUrl' => $fullShortenedUrl, 
             ]);
+
+            
         }
 
 

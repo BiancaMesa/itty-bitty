@@ -19,7 +19,7 @@ class ShortRequest extends FormRequest
         //     'original_url' => 'required|url'
         // ];
         return [
-            'original_url' => ['required', 'regex:/^https:\/\/www\./'],
+            'original_url' => ['required', 'regex:/^(https:\/\/(www\.)?|www\.)/'],
         ];
     }
 
@@ -27,7 +27,7 @@ class ShortRequest extends FormRequest
     public function messages()
     {
         return [
-            'original_url.regex' => 'The URL must start with "https://www."',
+            'original_url.regex' => 'The URL must start with "https://", "https://www.", or "www."',
         ];
     }
 }
