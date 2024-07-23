@@ -25,8 +25,13 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+    // Route for the user to delete a short URL
+    Route::delete('/short-url/{id}', [ShortUrlController::class, 'destroy'])->name('short.url.delete');
 });
 
 //Public route for shortened URL
 Route::get('/{shortUrlKey}', [ShortUrlController::class, 'show'])->name('short.show');
+
+
+
 

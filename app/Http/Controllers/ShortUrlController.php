@@ -47,6 +47,11 @@ class ShortUrlController extends Controller
         return redirect()->route('dashboard')->with([
             'shortenedUrl' => $fullShortenedUrl, 
         ]);
+
+        // AJAX request to submit the form 
+        // return response()->json([
+        //     'shortenedUrl' => $fullShortenedUrl
+        // ]);
     }
 
     // Function to show the user the shortened url  
@@ -60,5 +65,13 @@ class ShortUrlController extends Controller
 
         // Redirect to the original URL
         return redirect()->to($shortUrl->original_url);
+    }
+
+    public function destroy($id)
+    {
+        $shortUrl = ShortUrl::where('id', $id)->where('user_id', auth()->id())->firstOrFail();
+        $shortUrl->delete();
+
+        return response()->json(['message' => 'Short URL deleted successfully.']);
     }
 }
