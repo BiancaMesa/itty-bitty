@@ -44,11 +44,8 @@ class ShortUrlController extends Controller
             'full_shortened_url' => $fullShortenedUrl, 
         ]);
 
-        $successMessage = 'Your Short URL: ' . $fullShortenedUrl;
-
         return redirect()->route('dashboard')->with([
             'shortenedUrl' => $fullShortenedUrl, 
-            'successMessage' => $successMessage, 
         ]);
     }
 

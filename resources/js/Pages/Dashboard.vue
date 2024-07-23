@@ -10,7 +10,6 @@ const form = useForm({
 
 // Initialize the variable to display error message
 const errorMessage = ref('');
-const successMessage = ref('');
 
 // Function to submit form ---> POST 
 const submitForm = () => {
