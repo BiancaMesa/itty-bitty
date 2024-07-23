@@ -13,34 +13,35 @@ const errorMessage = ref('');
 
 // Function to submit form ---> POST 
 const submitForm = () => {
+    // URL format validation 
+    // Before submitting the form, We check the input follows the regex pattern we defined 
+    const urlPattern = new RegExp(/^https:\/\/www\./);
+
+    if (!urlPattern.test(form.original_url)) {
+        errorMessage.value = 'The URL must start with "https://www."';
+        return;
+    }
+
     form.post(route('short.url'), {
-        // Handle the success response
-        // onSuccess: (data) => {
-        //     // Update the reactive properties with the new URL
-        //     fullShortenedUrl.value = data.shortenedUrl;
-        //     //successMessage.value = data.successMessage;
-        //     form.reset();
-        //     errorMessage.value = '';
-        // },
         // Handling potential errors
         onError: (errors) => {
-            errorMessage.value = errors.original_url ? 'Please, introduce a valid URL' : 'An unexpected error occurred. Please try again.';
+            errorMessage.value = errors.original_url ? errors.original_url : 'An unexpected error occurred. Please try again.';
         }
     });
 };
 
 // We use the usePage to get the props from backend 
 const { props } = usePage();
-const latestFullShortenedUrl = props.latestFullShortenedUrl || '';
+const latestFullShortenedUrl = ref(props.latestFullShortenedUrl || '');
 
 //Reactive properties
-const fullShortenedUrl = ref(latestFullShortenedUrl);
+const fullShortenedUrl = ref(latestFullShortenedUrl || '');
 //const fullShortenedUrl = ref('');
 </script>
 
 <template >
         <!-- <main class="w-screen h-screen bg-white bg-gradient-to-b from-sky-100 via-emerald-50 via-white via-emerald-50 to-emerald-100"> -->
-        <main class="w-screen h-screen bg-sky-50">
+        <section class="w-screen h-screen bg-sky-50">
 
             <!-- // URL Shortening form // -->
             <div class="py-16 flex justify-center text-center">
@@ -61,7 +62,7 @@ const fullShortenedUrl = ref(latestFullShortenedUrl);
             </div>
 
             <!-- Display error message -->
-            <span v-if="errorMessage" class="text-red-400 m-2 p-2">
+            <span v-if="errorMessage" class="text-red-400 m-2 p-2 text-center self-center">
                 {{ errorMessage }}
             </span>
 
@@ -72,5 +73,5 @@ const fullShortenedUrl = ref(latestFullShortenedUrl);
                     {{ fullShortenedUrl }}
                 </a>
             </div>
-        </main>
+        </section>
 </template>
