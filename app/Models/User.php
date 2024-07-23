@@ -15,32 +15,20 @@ class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
 
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array<int, string>
-     */
+    // The attributes that are mass assignable
     protected $fillable = [
         'name',
         'email',
         'password',
     ];
 
-    /**
-     * The attributes that should be hidden for serialization.
-     *
-     * @var array<int, string>
-     */
+    // The attributes that should be hidden for serialization
     protected $hidden = [
         'password',
         'remember_token',
     ];
 
-    /**
-     * Get the attributes that should be cast.
-     *
-     * @return array<string, string>
-     */
+    // The attributes that should be cast
     protected function casts(): array
     {
         return [
@@ -49,12 +37,17 @@ class User extends Authenticatable
         ];
     }
 
-    /**
-     * Get the short URLs associated with the user.
-     */
+    // Get the short URLs associated with the user
     public function shortUrls()
     {
         return $this->hasMany(ShortUrl::class);
+    }
+
+    // Get the latest full shortened URL for the user
+    public function getLastFullShortenedUrl()
+    {
+        $lastShortUrl = $this->shortUrls()->latest()->first();
+        return $lastShortUrl ? $lastShortUrl->full_shortened_url : null;
     }
 }
 

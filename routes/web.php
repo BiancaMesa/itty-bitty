@@ -27,8 +27,6 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-// Route::post('/dashboard', [ShortUrlController::class, 'short'])->name('short.url');
-
 //Public route for shortened URL
 Route::get('/{shortUrlKey}', [ShortUrlController::class, 'show'])->name('short.show');
 

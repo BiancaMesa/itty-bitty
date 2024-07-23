@@ -16,57 +16,47 @@ class ShortUrlController extends Controller
         $user = auth()->user();
         $shortUrls = ShortUrl::where('user_id', $user->id)->get();
 
+        // Get the latest full shortened URL
+        $latestFullShortenedUrl = $user->getLastFullShortenedUrl();
+
         return Inertia::render('Dashboard', [
             'shortUrls' => $shortUrls, //We pass all URLs
+            'latestFullShortenedUrl' => $latestFullShortenedUrl, // we pass the latest URL to the view
         ]);
     }
 
-    // FUNCTION TO SHORTEN THE URL FROM THE GIVEN ORIGINAL URL
+    // Function to shorten a URL from the given original one  
     public function short(ShortRequest $request)
     {
-        // We validate the input URL
         $request->validate([
             'original_url' => 'required|url',
         ]);
 
-        // Generate a unique short URL key
         $shortUrlKey = Str::random(6);
+
+        $fullShortenedUrl = url('/' . $shortUrlKey);
 
         // Create a new short URL entry
         $shortUrl = ShortUrl::create([
             'user_id' => auth()->id(), // Associate with the logged-in user
             'original_url' => $request->original_url,
-            'short_url' => $shortUrlKey,
+            'short_url_key' => $shortUrlKey,
+            'full_shortened_url' => $fullShortenedUrl, 
         ]);
 
-        // Build the full shortened URL
-        //$shortenedUrl = url('/itty-bitty/' . $shortUrlKey);
-        //$shortenedUrl = url('http://itty-bitty/' . $shortUrlKey);
-        // $baseurl = url('http://itty-bitty/');
-        // $shortenedUrl = url('/' . $baseurl . $shortUrlKey);
-        $shortenedUrl = url('/' . $shortUrlKey);
+        $successMessage = 'Your Short URL: ' . $fullShortenedUrl;
 
-        // Return JSON response for AJAX
-        // if ($request->expectsJson()) {
-        //     return response()->json([
-        //         'shortenedUrl' => $shortenedUrl,
-        //         'successMessage' => 'Your Short URL: ' . $shortenedUrl,
-        //     ]);
-        // }
-
-        //Return Inertia response with the shortened URL
-        return Inertia::render('Dashboard', [
-            'shortUrls' => ShortUrl::where('user_id', auth()->id())->get(),
-            'shortenedUrl' => $shortenedUrl,
-            'successMessage' => 'Your Short URL: ' . $shortenedUrl,
+        return redirect()->route('dashboard')->with([
+            'shortenedUrl' => $fullShortenedUrl, 
+            'successMessage' => $successMessage, 
         ]);
     }
 
-    // FUNCTION TO SHOW THE USER THE SHORTENED URL 
+    // Function to show the user the shortened url  
     public function show($shortUrlKey)
     {
         // Find the short URL record
-        $shortUrl = ShortUrl::where('short_url', $shortUrlKey)->firstOrFail();
+        $shortUrl = ShortUrl::where('short_url_key', $shortUrlKey)->firstOrFail();
 
         // Increment the click count
         $shortUrl->increment('clicks');
