@@ -4,6 +4,7 @@ import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import { Head, usePage } from '@inertiajs/vue3';
 import ShortenUrl from './ShortenUrl.vue';
 import ManageUrls from './ManageUrls.vue';
+import analytics from './Analytics.vue';
 
 // Reactive property to track the current view
 const currentView = ref('shortenUrl');
@@ -18,6 +19,11 @@ const showShortenUrl = () => {
     currentView.value = 'shortenUrl';
 };
 
+// Switch to the URL shortening form view
+const showanalytics = () => {
+    currentView.value = 'analytics';
+};
+
 // Get props from Inertia
 const { props } = usePage();
 const latestFullShortenedUrl = props.latestFullShortenedUrl || '';
@@ -30,11 +36,13 @@ const shortUrls = props.shortUrls || [];
         <div class="py-4">
             <button @click="showShortenUrl" :class="{ 'bg-sky-300': currentView === 'shortenUrl' }" class="px-4 py-2 font-bold">Shorten URL</button>
             <button @click="showManageUrls" :class="{ 'bg-sky-300': currentView === 'manageUrls' }" class="px-4 py-2 font-bold">Manage Your URLs</button>
+            <button @click="showanalytics" :class="{ 'bg-sky-300': currentView === 'analytics' }" class="px-4 py-2 font-bold">Analytics</button>
         </div>
 
         <main class="w-screen h-screen bg-sky-50">
             <ShortenUrl v-if="currentView === 'shortenUrl'" :latestFullShortenedUrl="latestFullShortenedUrl" />
             <ManageUrls v-if="currentView === 'manageUrls'" :shortUrls="shortUrls" />
+            <analytics v-if="currentView === 'analytics'" :shortUrls="shortUrls" />
         </main>
     </AuthenticatedLayout>
 </template>

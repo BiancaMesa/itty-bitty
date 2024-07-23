@@ -1,6 +1,6 @@
 <script setup>
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
-import { ref } from 'vue'; //needed for reactive variables
+import { ref, onMounted } from 'vue'; //needed for reactive variables
 import { useForm, usePage } from '@inertiajs/vue3';
 
 // Initialize form data 
@@ -30,13 +30,14 @@ const submitForm = () => {
     });
 };
 
+
 // We use the usePage to get the props from backend 
 const { props } = usePage();
-const latestFullShortenedUrl = ref(props.latestFullShortenedUrl || '');
-
+const latestFullShortenedUrl = props.latestFullShortenedUrl || '';
 //Reactive properties
-const fullShortenedUrl = ref(latestFullShortenedUrl || '');
+const fullShortenedUrl = latestFullShortenedUrl || '';
 //const fullShortenedUrl = ref('');
+
 </script>
 
 <template >

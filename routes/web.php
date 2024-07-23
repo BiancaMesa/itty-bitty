@@ -28,6 +28,8 @@ Route::middleware('auth')->group(function () {
     // Route for the user to delete a short URL
     Route::delete('/short-url/{id}', [ShortUrlController::class, 'destroy'])->name('short.url.delete');
     Route::get('/manage-urls', [ShortUrlController::class, 'manageUrls'])->name('manage.urls'); 
+    // Analytics: keep track of clicks 
+    Route::get('/analytics', [ShortUrlController::class, 'analytics'])->name('analytics');
 });
 
 //Public route for shortened URL
