@@ -12,6 +12,7 @@ class ShortUrl extends Model
     // The attributes that are mass assignable
     protected $fillable = [
         'user_id',
+        'title',
         'original_url',
         'short_url_key',
         'full_shortened_url',

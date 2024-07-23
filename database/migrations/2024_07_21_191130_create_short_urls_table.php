@@ -14,6 +14,7 @@ return new class extends Migration
             // The constrained method adds the foreign key constraint.
             // The onDelete('cascade') method ensures that if a user is deleted, all related short URLs are also deleted.
             $table->foreignId('user_id')->nullable()->constrained()->onDelete('cascade');
+            $table->text('title');
             $table->text('original_url');
             $table->string('short_url_key')->nullable();
             $table->string('full_shortened_url')->nullable();

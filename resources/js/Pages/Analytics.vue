@@ -16,7 +16,7 @@
   
     // We prepare data for the chart
     //the array with the original urls
-    const labels = shortUrls.map(url => url.original_url); 
+    const labels = shortUrls.map(url => url.title); 
     const data = shortUrls.map(url => url.clicks);
   
     // Set chart options
@@ -67,7 +67,7 @@
 
       </div>
   
-      <div class="overflow-x-auto mt-10">
+      <div class="overflow-x-auto mt-10 w-screen">
         <table class="w-96 bg-white border border-gray-200 mt-8">
         <thead>
           <tr>

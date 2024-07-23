@@ -30,6 +30,7 @@ class ShortUrlController extends Controller
     public function short(ShortRequest $request)
     {
         $request->validate([
+            'title' => 'required|string|max:255',
             'original_url' => 'required|url',
         ]);
 
@@ -49,6 +50,7 @@ class ShortUrlController extends Controller
             // Create a new short URL entry
             $shortUrl = ShortUrl::create([
                 'user_id' => auth()->id(), // Associate with the logged-in user
+                'title' => $request->title, 
                 'original_url' => $request->original_url,
                 'short_url_key' => $shortUrlKey,
                 'full_shortened_url' => $fullShortenedUrl, 
@@ -60,7 +62,6 @@ class ShortUrlController extends Controller
 
             
         }
-
 
 
         // AJAX request to submit the form 
@@ -109,7 +110,7 @@ class ShortUrlController extends Controller
     public function analytics()
     {
         $user = auth()->user();
-        $shortUrls = ShortUrl::where('user_id', $user->id)->get(['original_url', 'full_shortened_url', 'clicks']);
+        $shortUrls = ShortUrl::where('user_id', $user->id)->get(['title', 'original_url', 'full_shortened_url', 'clicks']);
 
         return Inertia::render('Analytics', [
             'shortUrls' => $shortUrls,
