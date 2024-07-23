@@ -29,7 +29,7 @@ const shortUrls = props.shortUrls || [];
     <AuthenticatedLayout>
         <div class="py-4">
             <button @click="showShortenUrl" :class="{ 'bg-sky-300': currentView === 'shortenUrl' }" class="px-4 py-2 font-bold">Shorten URL</button>
-            <button @click="showManageUrls" :class="{ 'bg-sky-300': currentView === 'manageUrls' }" class="px-4 py-2 font-bold">Handle Your URLs</button>
+            <button @click="showManageUrls" :class="{ 'bg-sky-300': currentView === 'manageUrls' }" class="px-4 py-2 font-bold">Manage Your URLs</button>
         </div>
 
         <main class="w-screen h-screen bg-sky-50">

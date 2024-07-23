@@ -10,20 +10,30 @@ const shortUrls = ref(props.shortUrls || []);
 const deleteUrl = async (id) => {
     if (confirm('Are you sure you want to delete this URL?')) {
         try {
-            await fetch(route('short.url.delete', { id }), {
+            // Ensure the CSRF token is included in the request headers
+            const response = await fetch(route('short.url.delete', { id }), {
                 method: 'DELETE',
                 headers: {
                     'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+                    'Accept': 'application/json',
                 },
             });
-            // Remove the deleted URL from the list
-            shortUrls.value = shortUrls.value.filter(url => url.id !== id);
+
+            if (response.ok) {
+                // Remove the deleted URL from the list
+                shortUrls.value = shortUrls.value.filter(url => url.id !== id);
+            } else {
+                const errorData = await response.json();
+                alert(errorData.message || 'Failed to delete URL');
+            }
         } catch (error) {
-            alert('Failed to delete URL');
+            alert('An error occurred while trying to delete the URL');
         }
     }
 };
 </script>
+
+
 
 <template>
     <main class="py-16 p-20 h-screen">
@@ -36,9 +46,11 @@ const deleteUrl = async (id) => {
                 <li v-for="url in shortUrls" :key="url.id" class="mb-4">
                     <div class="flex items-center justify-between p-4 border border-gray-300 rounded-lg">
                         <div>
-                            <!-- <p><strong>Original URL:</strong> {{ url.original_url }}</p> -->
-                            <p><strong>Shortened URL:</strong> 
-                                <a :href="url.full_shortened_url" target="_blank" rel="noopener noreferrer">{{ url.full_shortened_url }}</a>
+                             <!-- <p><strong>Original URL:</strong> {{ url.original_url }}</p>  -->
+                             <p><strong>Shortened URL:</strong> 
+                                <a :href="url.full_shortened_url" target="_blank" rel="noopener noreferrer">    
+                                    {{ url.full_shortened_url }}
+                                </a>
                             </p>
                         </div>
                         <button @click="deleteUrl(url.id)" class="text-red-600 hover:text-red-800">Delete</button>
@@ -47,4 +59,4 @@ const deleteUrl = async (id) => {
             </ul>
         </div>
     </main>
-</template>
+</template> 
