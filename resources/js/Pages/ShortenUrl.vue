@@ -53,7 +53,7 @@ const copyToClipboard = () => {
             <h1 class="text-sky-800 mb-4 font-extrabold text-2xl lg:text-3xl">Enter Your Long URL:</h1>
             <form class="flex flex-col gap-4 w-full mx-auto" @submit.prevent="submitForm">
                 <input 
-                    class="border border-gray-300 rounded-lg w-full p-2 text-sm md:text-base"
+                    class="border border-gray-300 rounded-lg w-full p-3 text-sm md:text-base"
                     type="text" 
                     v-model="form.title" 
                     name="title" 
@@ -63,7 +63,7 @@ const copyToClipboard = () => {
                 >
 
                 <input 
-                    class="border border-gray-300 rounded-lg w-full p-2 text-sm md:text-base"
+                    class="border border-gray-300 rounded-lg w-full p-3 text-sm md:text-base"
                     type="url" 
                     v-model="form.original_url" 
                     name="original_url" 
