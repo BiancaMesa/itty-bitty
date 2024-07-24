@@ -4,7 +4,7 @@ import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import { Head, usePage } from '@inertiajs/vue3';
 import ShortenUrl from './ShortenUrl.vue';
 import ManageUrls from './ManageUrls.vue';
-import analytics from './Analytics.vue';
+import Analytics from './Analytics.vue';
 
 // Reactive property to track the current view
 const currentView = ref('shortenUrl');
@@ -20,7 +20,7 @@ const showShortenUrl = () => {
 };
 
 // Switch to the URL shortening form view
-const showanalytics = () => {
+const showAnalytics = () => {
     currentView.value = 'analytics';
 };
 
@@ -28,6 +28,7 @@ const showanalytics = () => {
 const { props } = usePage();
 const latestFullShortenedUrl = props.latestFullShortenedUrl || '';
 const shortUrls = props.shortUrls || [];
+
 </script>
 
 <template>
@@ -38,7 +39,7 @@ const shortUrls = props.shortUrls || [];
 
             <button @click="showManageUrls" :class="{ 'text-sky-800 bg-white border border-gray rounded-md' : currentView === 'manageUrls' }" class="px-4 py-2 font-black">Manage Your URLs</button>
 
-            <button @click="showanalytics" :class="{ 'text-sky-800 bg-white border border-gray rounded-md': currentView === 'analytics' }" class="px-4 py-2 font-bold">Analytics</button>
+            <button @click="showAnalytics" :class="{ 'text-sky-800 bg-white border border-gray rounded-md': currentView === 'analytics' }" class="px-4 py-2 font-bold">Analytics</button>
         </div>
 
         <main class="w-screen h-screen bg-sky-50">

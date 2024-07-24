@@ -18,25 +18,12 @@ class ShortUrlController extends Controller
 
         // // Get the latest full shortened URL
         $latestFullShortenedUrl = $user->getLastFullShortenedUrl();
-        
-        // Check if the original URL exists in the short_urls table
-        // $existingShortUrl = ShortUrl::where('user_id', $user->id)
-        //                         ->where('original_url', request()->input('original_url'))
-        //                         ->first();
-
-        // $existingFullShortenedUrl = $existingShortUrl ? $existingShortUrl->full_shortened_url : null;
 
         return Inertia::render('Dashboard', [
             'shortUrls' => $shortUrls, //We pass all URLs
             'latestFullShortenedUrl' => $latestFullShortenedUrl, // we pass the latest URL to the view
             'shortenedUrl' => session('shortenedUrl'),
         ]);
-
-        // return Inertia::render('Dashboard', [
-        //     'shortUrls' => $shortUrls,
-        //     // 'existingFullShortenedUrl' => $existingFullShortenedUrl,
-        //     //'shortenedUrl' => session('shortenedUrl'),
-        // ]);
     }
 
     // Function to shorten a URL from the given original one  
@@ -48,35 +35,52 @@ class ShortUrlController extends Controller
         ]);
 
         // We check if there is a shortened URL already created for the original URL
-        $existingShortUrl = ShortUrl::where('original_url', $request->original_url)
-        ->where('user_id', auth()->id())
-        ->first();
+        // $existingShortUrl = ShortUrl::where('original_url', $request->original_url)
+        // ->where('user_id', auth()->id())
+        // ->first();
 
-        if ($existingShortUrl) {
-            return redirect()->route('dashboard')->with([
-                'shortenedUrl' => $existingShortUrl->full_shortened_url,
-            ]);
-        } else {
-            $shortUrlKey = Str::random(6);
-            $fullShortenedUrl = url('/' . $shortUrlKey);
+        // if ($existingShortUrl) {
+        //     return Inertia::render('Dashboard', [
+        //         'shortenedUrl' => $existingShortUrl->full_shortened_url,
+        //         'shortUrlId' => $existingShortUrl->id,
+        //     ]);
+        // } else {
+        //     $shortUrlKey = Str::random(6);
+        //     $fullShortenedUrl = url('/' . $shortUrlKey);
     
-            // Create a new short URL entry
-            $shortUrl = ShortUrl::create([
-                'user_id' => auth()->id(), // Associate with the logged-in user
-                'title' => $request->title, 
-                'original_url' => $request->original_url,
-                'short_url_key' => $shortUrlKey,
-                'full_shortened_url' => $fullShortenedUrl, 
-            ]);
+        //     // Create a new short URL entry
+        //     $shortUrl = ShortUrl::create([
+        //         'user_id' => auth()->id(), // Associate with the logged-in user
+        //         'title' => $request->title, 
+        //         'original_url' => $request->original_url,
+        //         'short_url_key' => $shortUrlKey,
+        //         'full_shortened_url' => $fullShortenedUrl, 
+        //     ]);
 
-            // return redirect()->route('dashboard')->with([
-            //     'shortenedUrl' => $fullShortenedUrl, 
-            // ]);
-            // Return Inertia response with the new shortened URL
-            return Inertia::render('Dashboard', [
-                'shortenedUrl' => $fullShortenedUrl,
-            ]);
-        }
+        //     return Inertia::render('Dashboard', [
+        //         'shortenedUrl' => $fullShortenedUrl,
+        //         'shortUrlId' => $shortUrl->id,
+        //     ]);
+        // }
+
+                // Generate a unique short URL key
+                $shortUrlKey = Str::random(6);
+                $fullShortenedUrl = url('/' . $shortUrlKey);
+        
+                // Create a new short URL entry
+                $shortUrl = ShortUrl::create([
+                    'user_id' => auth()->id(), // Associate with the logged-in user
+                    'title' => $request->title,
+                    'original_url' => $request->original_url,
+                    'short_url_key' => $shortUrlKey,
+                    'full_shortened_url' => $fullShortenedUrl,
+                ]);
+        
+                return Inertia::render('Dashboard', [
+                    'shortenedUrl' => $fullShortenedUrl,
+                    'shortUrlId' => $shortUrl->id,
+                ]);
+        
     }
 
     // Function to show the user the shortened url  
@@ -104,7 +108,7 @@ class ShortUrlController extends Controller
 
     $shortUrl->delete();
 
-    return response()->noContent(); // Return no content for successful delete
+    return response()->noContent(); // Returns no content for successful delete
     }
 
     public function manageUrls()

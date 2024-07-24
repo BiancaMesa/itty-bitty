@@ -15,9 +15,6 @@ class ShortRequest extends FormRequest
     // Get the validation rules that apply to the request. Regex pattern
     public function rules(): array
     {
-        // return [
-        //     'original_url' => 'required|url'
-        // ];
         return [
             'title' => 'required|string|max:255',
             'original_url' => ['required', 'regex:/^(https?:\/\/(www\.)?|www\.)/'],

@@ -29,11 +29,6 @@ function handleImageError() {
 <template>
     <Head title="Welcome" />
     <div class="bg-gray-50 text-black/50 dark:bg-black dark:text-white/50">
-        <!-- <img
-            id="background"
-            class="absolute -left-20 top-0 max-w-[877px]"
-            src="https://laravel.com/assets/img/welcome/background.svg"
-        /> -->
         <div
             class="relative flex flex-col items-center justify-center selection:bg-[#FF2D20] selection:text-white"
         >
@@ -70,16 +65,11 @@ function handleImageError() {
                 </header>
 
                 <main class="-mt-16 pb-16 flex flex-col justify-center min-h-screen text-center items-center">
-                    <!-- <h1 class="mb-4 text-4xl font-extrabold leading-none tracking-tight text-gray-900 md:text-5xl lg:text-6xl dark:text-white">Welcome to Itty Bitty, Your URL Shortener.</h1> -->
 
                     <h1 class="mb-4 text-3xl font-extrabold text-gray-900 dark:text-white md:text-5xl lg:text-6xl">Welcome to <span class="text-transparent bg-clip-text bg-gradient-to-r to-emerald-600 from-sky-400">Itty Bitty</span>, Your URL Shortener.</h1>
 
                     <h2 class="text-2xl text-center">Register or log in to shorten your URL.</h2>
                 </main>
-
-                <!-- <footer class="py-16 text-center text-sm text-black dark:text-white/70">
-                    Laravel v{{ laravelVersion }} (PHP v{{ phpVersion }})
-                </footer> -->
             </div>
         </div>
     </div>
