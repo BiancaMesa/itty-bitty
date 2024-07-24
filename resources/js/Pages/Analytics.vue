@@ -1,85 +1,90 @@
 <script setup>
-  import { ref, onMounted } from 'vue';
-  import * as echarts from 'echarts';
-  import { usePage } from '@inertiajs/vue3';
-  
-  // Get the props from back
-  const { props } = usePage();
-  const shortUrls = props.shortUrls || [];
-  
-  // Reference to the ECharts container
-  const chartContainer = ref(null);
-  
-  onMounted(() => {
-    // We initialize ECharts
-    const chart = echarts.init(chartContainer.value);
-  
-    // We prepare data for the chart
-    //the array with the original urls
-    const labels = shortUrls.map(url => url.title); 
-    const data = shortUrls.map(url => url.clicks);
-  
-    // Set chart options
-    const options = {
-      title: {
-        text: 'Number of Clicks per URL',
-      },
-      tooltip: {
-        trigger: 'item',
-      },
-      xAxis: {
-        type: 'category',
-        data: labels,
-        axisLabel: {
-          rotate: 45, //labels will appear rotated 
-          formatter: (value) => {
-            // Truncate the URL for display purposes with an ellipsis
-            return value.length > 50 ? `${value.substring(0, 50)}...` : value;
-        },
+import { ref, onMounted } from 'vue';
+import * as echarts from 'echarts';
+import { usePage } from '@inertiajs/vue3';
+
+// Get the props from back
+const { props } = usePage();
+const shortUrls = props.shortUrls || [];
+
+// Reference to the ECharts container
+const chartContainer = ref(null);
+
+onMounted(() => {
+  // Initialize ECharts
+  const chart = echarts.init(chartContainer.value);
+
+  // Prepare data for the chart
+  const labels = shortUrls.map(url => url.title);
+  const data = shortUrls.map(url => url.clicks);
+
+  // Set chart options
+  const options = {
+    title: {
+      text: 'Number of Clicks per URL',
+    },
+    tooltip: {
+      trigger: 'item',
+    },
+    xAxis: {
+      type: 'category',
+      data: labels,
+      axisLabel: {
+        rotate: 45, // Labels will appear rotated
+        formatter: (value) => {
+          // Truncate the URL for display purposes with an ellipsis
+          return value.length > 50 ? `${value.substring(0, 50)}...` : value;
         },
       },
-      yAxis: {
-        type: 'value',
-      },
-      series: [
-        {
-          name: 'Clicks',
-          type: 'bar',
-          data: data,
-          itemStyle: {
-            color: '#42A5F5',
-          },
+    },
+    yAxis: {
+      type: 'value',
+    },
+    series: [
+      {
+        name: 'Clicks',
+        type: 'bar',
+        data: data,
+        itemStyle: {
+          color: '#42A5F5',
         },
-      ],
-    };
+      },
+    ],
+  };
+
+  // Set the options and render the chart
+  chart.setOption(options);
   
-    // Set the options and render the chart
-    chart.setOption(options);
+  // Handle window resize events
+  window.addEventListener('resize', () => {
+    chart.resize();
   });
-  </script>
+});
+</script>
 
 <template>
-    <main class="w-screen h-screen bg-sky-50 p-8 flex flex-col items-center">
-      <h1 class="text-2xl font-bold mb-4">URL Analytics</h1>
-  
-      <!-- ECharts Container with defined height and width-->
-      <div ref="chartContainer" class="w-full h-80 flex self-center justify-content md:h-96 lg:h-[500px]">
+  <main class="w-full min-h-screen bg-sky-50 p-8 flex flex-col items-center">
+    <h1 class="text-2xl font-bold mb-4">URL Analytics</h1>
 
-      </div>
-  
-      <div class="overflow-x-auto mt-10 w-screen">
-        <table class="w-96 bg-white border border-gray-200 mt-8">
+    <!-- ECharts Container with responsive width and height -->
+    <div ref="chartContainer" class="w-full h-64 sm:h-80 md:h-96 lg:h-[500px] flex justify-center">
+      <!-- The height classes ensure the chart adapts to different screen sizes -->
+    </div>
+
+    <!-- Responsive Table -->
+    <div class="overflow-x-auto mt-10 w-full max-w-4xl">
+      <table class="w-full bg-white border border-gray-200 mt-8 text-sm">
         <thead>
           <tr>
             <th class="py-2 px-4 border-b text-left">Original URL</th>
-          <th class="py-2 px-4 border-b text-left">Shortened URL</th>
-          <th class="py-2 px-4 border-b text-left">Clicks</th>
+            <th class="py-2 px-4 border-b text-left">Shortened URL</th>
+            <th class="py-2 px-4 border-b text-left">Clicks</th>
           </tr>
         </thead>
-        <tbody class="min-w-full bg-white border border-gray-200 mt-8 text-sm">
+        <tbody class="bg-white text-sm">
           <tr v-for="shortUrl in shortUrls" :key="shortUrl.id">
-            <td class="py-2 px-4 border-b">{{ shortUrl.original_url }}</td>
-            <td class="py-2 px-4 border-b">
+            <td class="py-2 px-4 border-b break-words">{{ shortUrl.original_url }}</td>
+            <td class="py-2 px-4 border-b break-words">
               <a :href="shortUrl.full_shortened_url" target="_blank" rel="noopener noreferrer">
                 {{ shortUrl.full_shortened_url }}
               </a>
@@ -88,9 +93,6 @@
           </tr>
         </tbody>
       </table>
-      </div>
-      
-    </main>
-  </template>
-  
-  
+    </div>
+  </main>
+</template>

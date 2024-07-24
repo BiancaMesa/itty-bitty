@@ -1,8 +1,8 @@
 <script setup>
-import { ref } from 'vue'; //needed for reactive variables
+import { ref } from 'vue'; // needed for reactive variables
 import { useForm, usePage } from '@inertiajs/vue3';
 
-// Initialize form data 
+// Initialize form data
 const form = useForm({
     title: '', 
     original_url: '',
@@ -11,12 +11,11 @@ const form = useForm({
 // Initialize the variable to display error message
 const errorMessage = ref('');
 
-
 // We use the usePage to get the props from backend 
 const { props } = usePage();
 const initialFullShortenedUrl = props.latestFullShortenedUrl || '';
 
-//Set the initial value of fullShortenedUrl
+// Set the initial value of fullShortenedUrl
 const fullShortenedUrl = ref(initialFullShortenedUrl);
 
 // Function to submit form ---> POST 
@@ -50,7 +49,6 @@ const submitForm = async () => {
     }
 };
 
-
 // Function to copy the shortened URL to clipboard
 const copyToClipboard = () => {
     if (fullShortenedUrl.value) {
@@ -59,59 +57,60 @@ const copyToClipboard = () => {
 };
 </script>
 
-<template >
-        <section class="w-screen h-screen bg-sky-50">
+<template>
+    <section class="w-screen h-screen bg-sky-50 flex flex-col items-center py-8 px-4">
+        <!-- URL Shortening Form -->
+        <div class="text-center w-full max-w-md mx-auto">
+            <h1 class="text-sky-800 mb-4 font-extrabold text-2xl lg:text-3xl">Enter Your Long URL:</h1>
+            <form class="flex flex-col gap-4 w-full mx-auto" @submit.prevent="submitForm">
+                <input 
+                    class="border border-gray-300 rounded-lg w-full p-2 text-sm md:text-base"
+                    type="text" 
+                    v-model="form.title" 
+                    name="title" 
+                    id="title" 
+                    placeholder="Title"
+                    required
+                >
 
-            <!-- // URL Shortening form // -->
-            <div class="py-16 flex flex-col justify-center text-center">
-                <h1 class="text-sky-800 mb-4 font-extrabold  md:text-3xl" for="original_url">Enter Your Long URL:</h1>
-                <form class="flex flex-col self-center" @submit.prevent="submitForm">
-                    <input 
-                        class="border border-gray-300 rounded-lg w-full sm:w-96 mt-2" 
-                        type="text" 
-                        v-model="form.title" 
-                        name="title" 
-                        id="title" 
-                        placeholder="Title"
-                        required
-                    >
+                <input 
+                    class="border border-gray-300 rounded-lg w-full p-2 text-sm md:text-base"
+                    type="url" 
+                    v-model="form.original_url" 
+                    name="original_url" 
+                    id="original_url" 
+                    placeholder="Original URL"
+                    required
+                >
 
-                    <input 
-                        class="border border-gray-300 rounded-lg w-full sm:w-96 mt-2" 
-                        type="url" 
-                        v-model="form.original_url" 
-                        name="original_url" 
-                        id="original_url" 
-                        placeholder="Original URL"
-                        required
-                    >
+                <button class="px-6 py-2 bg-sky-200 font-bold text-gray-700 hover:bg-sky-300 hover:text-gray-800 rounded-lg text-sm md:text-base" type="submit">Submit</button>
+            </form>
 
-                    <button class="m-2 px-6 py-2 bg-sky-200 font-bold  text-gray-700 hover:bg-sky-300 hover:text-gray-800 rounded-lg" type="submit">Submit</button>
-                </form>
+            <p class="text-gray-400 py-4 text-sm md:text-base">Refresh the page to get the shortened URL.</p>
+        </div>
 
-                <p class="text-gray-400 py-2">Refresh the page to get the shortened URL.</p>
-            </div>
+        <!-- Display error message -->
+        <span v-if="errorMessage" class="text-red-400 m-2 p-2 text-center text-sm md:text-base">
+            {{ errorMessage }}
+        </span>
 
-            <!-- Display error message -->
-            <span v-if="errorMessage" class="text-red-400 m-2 p-2 text-center self-center">
-                {{ errorMessage }}
-            </span>
+        <!-- Display latest shortened URL -->
+        <div class="text-center w-full max-w-md mx-auto mt-10">
+            <h3 class="font-semibold mb-4 text-cyan-700 text-2xl lg:text-3xl">Your Shortened URL:</h3>
+            <a 
+                class="block px-6 py-3 rounded border border-slate-800 bg-white text-gray-900 font-bold mx-auto w-full overflow-hidden text-ellipsis whitespace-nowrap hover:text-sky-600"
+                :href="fullShortenedUrl"
+                target="_blank" 
+                rel="noopener noreferrer">
+                    {{ fullShortenedUrl }}
+            </a>
+        </div>
 
-            <!-- Display latest shortened URL -->
-            <div class="mt-10 text-center">
-                <h3 class="font-semibold mb-2 text-cyan-700 mb-8 md:text-3xl">Your Shortened URL:</h3>
-                <a 
-                    class="px-12 py-4 rounded border border-slate-800 bg-white text-gray-900 font-bold sm:w-96 mt-2 hover:text-sky-600" 
-                    :href="fullShortenedUrl"
-                    target="_blank" 
-                    rel="noopener noreferrer">
-                        {{ fullShortenedUrl }}
-                </a>
-            </div>
-            <div class="text-center mt-7">
-                <button class="m-2 px-6 py-2 bg-emerald-200 font-bold text-gray-700 hover:bg-emerald-300 hover:text-gray-800 rounded-lg" @click="copyToClipboard">
-                    Copy to Clipboard
-                </button>
-            </div>
-        </section>
+        <!-- Copy to Clipboard Button -->
+        <div class="text-center mt-6">
+            <button class="px-6 py-2 bg-emerald-100 font-bold text-gray-700 hover:bg-emerald-300 hover:text-gray-800 rounded-lg text-sm md:text-base" @click="copyToClipboard">
+                Copy to Clipboard
+            </button>
+        </div>
+    </section>
 </template>
