@@ -26,12 +26,12 @@ const submitForm = () => {
     }
 
     form.post(route('short.url'), {
-        onSuccess: (data) => {
-            // Update the reactive properties with the new URL
-            fullShortenedUrl.value = data.shortenedUrl;
-            form.reset();
-            errorMessage.value = '';
-        },
+        // onSuccess: (data) => {
+        //     // Update the reactive properties with the new URL
+        //     fullShortenedUrl.value = data.shortenedUrl; // Adjust according to backend response
+        //     form.reset();
+        //     errorMessage.value = '';
+        // },
         // Handling potential errors
         onError: (errors) => {
             errorMessage.value = errors.original_url ? errors.original_url : 'An unexpected error occurred. Please try again.';
@@ -40,11 +40,11 @@ const submitForm = () => {
 };
 
 // Reset input field on component mount
-// onMounted(() => {
-//     form.reset();
-// });
+onMounted(() => {
+    form.reset();
+});
 
-// // Watch the input field and clear the shortened URL when the input changes
+// // Watch the input field and clear the shortened URL when the input changes 
 // watch(() => form.original_url, (newValue) => {
 //     if (newValue.trim() === '') {
 //         fullShortenedUrl.value = '';
@@ -55,11 +55,6 @@ const submitForm = () => {
 
 // We use the usePage to get the props from backend 
 const { props } = usePage();
-//const latestFullShortenedUrl = props.latestFullShortenedUrl || '';
-//Reactive properties
-//const fullShortenedUrl = latestFullShortenedUrl || '';
-//const fullShortenedUrl = ref('');
-
 const initialFullShortenedUrl = props.latestFullShortenedUrl || '';
 //Set the initial value of fullShortenedUrl
 fullShortenedUrl.value = initialFullShortenedUrl;
@@ -68,12 +63,12 @@ fullShortenedUrl.value = initialFullShortenedUrl;
 const copyToClipboard = () => {
     if (fullShortenedUrl.value) {
         navigator.clipboard.writeText(fullShortenedUrl.value)
-            .then(() => {
-                alert('Shortened URL copied to clipboard!');
-            })
-            .catch(() => {
-                alert('Failed to copy URL. Please try again.');
-            });
+            // .then(() => {
+            //     alert('Shortened URL copied to clipboard!');
+            // })
+            // .catch(() => {
+            //     alert('Failed to copy URL. Please try again.');
+            // });
     }
 };
 </script>
@@ -127,8 +122,12 @@ const copyToClipboard = () => {
             <!-- Display latest shortened URL -->
             <div class="mt-10 text-center">
                 <h3 class="font-semibold mb-2 text-cyan-700 mb-8 md:text-3xl">Your Full Shortened URL:</h3>
-                <a class="px-12 py-4 rounded border border-slate-800 bg-white text-gray-900  font-bold sm:w-96 mt-2 hover:text-sky-600" :href="fullShortenedUrl" target="_blank" rel="noopener noreferrer">
-                    {{ fullShortenedUrl }}
+                <a 
+                    class="px-12 py-4 rounded border border-slate-800 bg-white text-gray-900 font-bold sm:w-96 mt-2 hover:text-sky-600" 
+                    :href="fullShortenedUrl" 
+                    target="_blank" 
+                    rel="noopener noreferrer">
+                        {{ fullShortenedUrl }}
                 </a>
             </div>
             <div class="text-center mt-7">

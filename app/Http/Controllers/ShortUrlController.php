@@ -56,18 +56,14 @@ class ShortUrlController extends Controller
                 'full_shortened_url' => $fullShortenedUrl, 
             ]);
 
-            return redirect()->route('dashboard')->with([
-                'shortenedUrl' => $fullShortenedUrl, 
+            // return redirect()->route('dashboard')->with([
+            //     'shortenedUrl' => $fullShortenedUrl, 
+            // ]);
+            // Return Inertia response with the new shortened URL
+            return Inertia::render('Dashboard', [
+                'shortenedUrl' => $fullShortenedUrl,
             ]);
-
-            
         }
-
-
-        // AJAX request to submit the form 
-        // return response()->json([
-        //     'shortenedUrl' => $fullShortenedUrl
-        // ]);
     }
 
     // Function to show the user the shortened url  

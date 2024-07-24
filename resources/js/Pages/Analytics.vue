@@ -31,7 +31,7 @@
         type: 'category',
         data: labels,
         axisLabel: {
-          rotate: 70, //labels will appear rotated 
+          rotate: 45, //labels will appear rotated 
           formatter: (value) => {
             // Truncate the URL for display purposes with an ellipsis
             return value.length > 50 ? `${value.substring(0, 50)}...` : value;
