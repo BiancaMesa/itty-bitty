@@ -66,9 +66,8 @@ onMounted(() => {
   <main class="w-full min-h-screen bg-sky-50 p-8 flex flex-col items-center">
     <h1 class="text-2xl font-bold mb-4">URL Analytics</h1>
 
-    <!-- ECharts Container with responsive width and height -->
+    <!-- ECharts Container -->
     <div ref="chartContainer" class="w-full h-64 sm:h-80 md:h-96 lg:h-[500px] flex justify-center">
-      <!-- The height classes ensure the chart adapts to different screen sizes -->
     </div>
 
     <!-- Responsive Table -->

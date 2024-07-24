@@ -6,25 +6,20 @@ import ShortenUrl from './ShortenUrl.vue';
 import ManageUrls from './ManageUrls.vue';
 import Analytics from './Analytics.vue';
 
-// Reactive property to track the current view
 const currentView = ref('shortenUrl');
 
-// Switch to the URL management view
 const showManageUrls = () => {
     currentView.value = 'manageUrls';
 };
 
-// Switch to the URL shortening form view
 const showShortenUrl = () => {
     currentView.value = 'shortenUrl';
 };
 
-// Switch to the URL shortening form view
 const showAnalytics = () => {
     currentView.value = 'analytics';
 };
 
-// Get props from Inertia
 const { props } = usePage();
 const latestFullShortenedUrl = props.latestFullShortenedUrl || '';
 const shortUrls = props.shortUrls || [];

@@ -2,15 +2,13 @@
 import { ref } from 'vue';
 import { usePage } from '@inertiajs/vue3';
 
-// Access short URLs from props
 const { props } = usePage();
 const shortUrls = ref(props.shortUrls || []);
 
-// Function to delete a URL
 const deleteUrl = async (id) => {
     if (confirm('Are you sure you want to delete this URL?')) {
         try {
-            // Ensure the CSRF token is included in the request headers
+            // CSRF token is included in the request headers
             const response = await fetch(route('short.url.delete', { id }), {
                 method: 'DELETE',
                 headers: {
@@ -45,13 +43,21 @@ const deleteUrl = async (id) => {
                     <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between p-4 border border-gray-300 rounded-lg">
                         <div class="flex-1 w-full sm:w-auto">
                             <p><strong>Original URL:</strong> 
-                                <a :href="url.original_url" class="text-gray-600 hover:text-blue-400 pl-2 break-all" target="_blank" rel="noopener noreferrer">
-                                    {{ url.original_url }}
+                                <a 
+                                    :href="url.original_url" 
+                                    class="text-gray-600 hover:text-blue-400 pl-2 break-all" 
+                                    target="_blank" 
+                                    rel="noopener noreferrer">
+                                        {{ url.original_url }}
                                 </a>
                             </p>
                             <p><strong>Shortened URL:</strong> 
-                                <a :href="url.full_shortened_url"  class="text-gray-600 hover:text-blue-400 pl-2 break-all" target="_blank" rel="noopener noreferrer">    
-                                    {{ url.full_shortened_url }}
+                                <a 
+                                    :href="url.full_shortened_url"  
+                                    class="text-gray-600 hover:text-blue-400 pl-2 break-all" 
+                                    target="_blank" 
+                                    rel="noopener noreferrer">    
+                                        {{ url.full_shortened_url }}
                                 </a>
                             </p>
                         </div>

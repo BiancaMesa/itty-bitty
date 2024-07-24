@@ -15,7 +15,6 @@ Route::get('/', function () {
     ]);
 });
 
-// Authentication routes
 require __DIR__.'/auth.php';
 
 // Authenticated routes

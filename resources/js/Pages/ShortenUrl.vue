@@ -1,27 +1,21 @@
 <script setup>
-import { ref } from 'vue'; // needed for reactive variables
+import { ref } from 'vue'; 
 import { useForm, usePage } from '@inertiajs/vue3';
 
-// Initialize form data
 const form = useForm({
     title: '', 
     original_url: '',
 });
 
-// Initialize the variable to display error message
 const errorMessage = ref('');
 
-// We use the usePage to get the props from backend 
 const { props } = usePage();
 const initialFullShortenedUrl = props.latestFullShortenedUrl || '';
 
-// Set the initial value of fullShortenedUrl
 const fullShortenedUrl = ref(initialFullShortenedUrl);
 
 // Function to submit form ---> POST 
 const submitForm = async () => {
-    // URL format validation 
-    // Before submitting the form, We check the input follows the regex pattern we defined 
     const urlPattern = new RegExp(/^(https?:\/\/(www\.)?|www\.)/);
 
     if (!urlPattern.test(form.original_url)) {
@@ -30,16 +24,12 @@ const submitForm = async () => {
     }
 
     try {
-        // Post the form data to the server
         const response = await form.post(route('short.url'), {
             preserveState: true, // Preserve state during the request
         });
 
-        // Check for successful response
         if (response.data?.shortenedUrl) {
-            // Update local state with the new URL
             fullShortenedUrl.value = response.data.shortenedUrl;
-            // form.reset();
             errorMessage.value = '';
         } else {
             throw new Error('Unexpected response structure');
@@ -49,7 +39,6 @@ const submitForm = async () => {
     }
 };
 
-// Function to copy the shortened URL to clipboard
 const copyToClipboard = () => {
     if (fullShortenedUrl.value) {
         navigator.clipboard.writeText(fullShortenedUrl.value)

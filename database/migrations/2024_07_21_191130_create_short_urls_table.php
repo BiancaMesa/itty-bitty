@@ -6,13 +6,10 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    //  Run the migrations
     public function up(): void
     {
         Schema::create('short_urls', function (Blueprint $table) {
             $table->id();
-            // The constrained method adds the foreign key constraint.
-            // The onDelete('cascade') method ensures that if a user is deleted, all related short URLs are also deleted.
             $table->foreignId('user_id')->nullable()->constrained()->onDelete('cascade');
             $table->text('title');
             $table->text('original_url');
@@ -23,7 +20,6 @@ return new class extends Migration
         });
     }
 
-    // Reverse the migrations
     public function down(): void
     {
         Schema::dropIfExists('short_urls');

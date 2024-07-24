@@ -12,21 +12,18 @@ class ShortUrlController extends Controller
 {
     public function index()
     {
-        // Display the user's short URLs on the dashboard
         $user = auth()->user();
         $shortUrls = ShortUrl::where('user_id', $user->id)->get();
 
-        // // Get the latest full shortened URL
         $latestFullShortenedUrl = $user->getLastFullShortenedUrl();
 
         return Inertia::render('Dashboard', [
-            'shortUrls' => $shortUrls, //We pass all URLs
-            'latestFullShortenedUrl' => $latestFullShortenedUrl, // we pass the latest URL to the view
+            'shortUrls' => $shortUrls, 
+            'latestFullShortenedUrl' => $latestFullShortenedUrl, 
             'shortenedUrl' => session('shortenedUrl'),
         ]);
     }
 
-    // Function to shorten a URL from the given original one  
     public function short(ShortRequest $request)
     {
         $request->validate([
@@ -34,13 +31,11 @@ class ShortUrlController extends Controller
             'original_url' => 'required|url',
         ]);
 
-        // Generate a unique short URL key
         $shortUrlKey = Str::random(6);
         $fullShortenedUrl = url('/' . $shortUrlKey);
 
-        // Create a new short URL entry
         $shortUrl = ShortUrl::create([
-            'user_id' => auth()->id(), // Associate with the logged-in user
+            'user_id' => auth()->id(), 
             'title' => $request->title,
             'original_url' => $request->original_url,
             'short_url_key' => $shortUrlKey,
@@ -53,16 +48,12 @@ class ShortUrlController extends Controller
         ]);
     }
 
-    // Function to show the user the shortened url  
     public function show($shortUrlKey)
     {
-        // Find the short URL record
         $shortUrl = ShortUrl::where('short_url_key', $shortUrlKey)->firstOrFail();
 
-        // Increment the click count
         $shortUrl->increment('clicks');
 
-        // Redirect to the original URL
         return redirect()->to($shortUrl->original_url);
     }
 
@@ -71,14 +62,13 @@ class ShortUrlController extends Controller
     {
         $shortUrl = ShortUrl::findOrFail($id);
 
-        // Ensure the user is authorized to delete this URL
         if ($shortUrl->user_id !== auth()->id()) {
             return response()->json(['message' => 'Unauthorized'], 403);
         }
 
         $shortUrl->delete();
 
-        return response()->noContent(); // Returns no content for successful delete
+        return response()->noContent(); 
     }
 
     public function manageUrls()
