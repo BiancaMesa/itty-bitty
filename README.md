@@ -31,7 +31,7 @@ Welcome to the URL Shortener project! This project is a web application built us
 - **Analytics:** Users can view click analytics for their shortened URLs.
 
 
-## Installation 🖥️
+## Installation  🖥️
 To get started with this project, follow these steps:
 1. **Clone the repository:**   
 ```git clone https://github.com/BiancaMesa/itty-bitty.git```
@@ -65,10 +65,10 @@ To get started with this project, follow these steps:
 3. **Manage URLs:** View, copy, or delete your shortened URLs from the dashboard.
 4. **View Analytics:** Access the analytics section to see the number of clicks each URL has received.
 
-## Project Structure 
+# Project Structure 
 The project has been vuilt using the Laravel starter kit with Vue.js and Inertia.js. 
 
-# Backend 
+## Backend 
 The database of choice for this project has been SQLite and TablePlus has been used as a tool to manage the databse.
 For the project, two tables have been created in the database. One with the information of the user and another one with the information of the URLs: the original URL, the title, the shortened URL and its unique key, the number of clicks, and the user_id (which relates both tables). The relation between those tables has been one to many, so one user can have many URLs but each URL is linked to one user. 
 
@@ -76,7 +76,7 @@ The URL Shortener project's routing setup includes various HTTP methods to handl
 
 A regex has been included in form request to validate that the user puts a valid URL. 
 
-# Frontend 
+## Frontend 
 In the frontend of the URL Shortener project, we utilized Inertia.js to render React components seamlessly within our Laravel application.  
 The 'Welcome' component is rendered on the home page, displaying login and registration options based on the route's availability.
 The 'Dashboard' component acts as the main hub for user interaction within the application. From this central dashboard, users can access three key functionalities: ShortenUrl.vue, ManageUrl.vue, and Analytics.vue.
