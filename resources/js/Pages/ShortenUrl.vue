@@ -3,6 +3,7 @@
 import { ref, watch, onMounted } from 'vue'; //needed for reactive variables
 import { useForm, usePage } from '@inertiajs/vue3';
 
+
 // Initialize form data 
 const form = useForm({
     title: '', 
@@ -13,6 +14,13 @@ const form = useForm({
 const errorMessage = ref('');
 // Initialize the reactive variable for the shortened URL
 const fullShortenedUrl = ref('');
+
+// We use the usePage to get the props from backend 
+const { props } = usePage();
+const initialFullShortenedUrl = props.latestFullShortenedUrl || '';
+//const initialFullShortenedUrl = props.existingFullShortenedUrl || '';
+//Set the initial value of fullShortenedUrl
+fullShortenedUrl.value = initialFullShortenedUrl;
 
 // Function to submit form ---> POST 
 const submitForm = () => {
@@ -26,13 +34,13 @@ const submitForm = () => {
     }
 
     form.post(route('short.url'), {
-        // onSuccess: (data) => {
-        //     // Update the reactive properties with the new URL
-        //     fullShortenedUrl.value = data.shortenedUrl; // Adjust according to backend response
-        //     form.reset();
-        //     errorMessage.value = '';
-        // },
-        // Handling potential errors
+        onSuccess: (data) => {
+            // Update the reactive properties with the new URL
+            fullShortenedUrl.value = data.shortenedUrl || initialFullShortenedUrl; // Adjust according to backend response
+            form.reset();
+            errorMessage.value = '';
+        },
+        //Handling potential errors
         onError: (errors) => {
             errorMessage.value = errors.original_url ? errors.original_url : 'An unexpected error occurred. Please try again.';
         }
@@ -40,9 +48,9 @@ const submitForm = () => {
 };
 
 // Reset input field on component mount
-onMounted(() => {
-    form.reset();
-});
+// onMounted(() => {
+//     fullShortenedUrl;
+// });
 
 // // Watch the input field and clear the shortened URL when the input changes 
 // watch(() => form.original_url, (newValue) => {
@@ -53,11 +61,7 @@ onMounted(() => {
 
 
 
-// We use the usePage to get the props from backend 
-const { props } = usePage();
-const initialFullShortenedUrl = props.latestFullShortenedUrl || '';
-//Set the initial value of fullShortenedUrl
-fullShortenedUrl.value = initialFullShortenedUrl;
+
 
 // Function to copy the shortened URL to clipboard
 const copyToClipboard = () => {
@@ -74,7 +78,6 @@ const copyToClipboard = () => {
 </script>
 
 <template >
-        <!-- <main class="w-screen h-screen bg-white bg-gradient-to-b from-sky-100 via-emerald-50 via-white via-emerald-50 to-emerald-100"> -->
         <section class="w-screen h-screen bg-sky-50">
 
             <!-- // URL Shortening form // -->
@@ -121,7 +124,7 @@ const copyToClipboard = () => {
 
             <!-- Display latest shortened URL -->
             <div class="mt-10 text-center">
-                <h3 class="font-semibold mb-2 text-cyan-700 mb-8 md:text-3xl">Your Full Shortened URL:</h3>
+                <h3 class="font-semibold mb-2 text-cyan-700 mb-8 md:text-3xl">Your Shortened URL:</h3>
                 <a 
                     class="px-12 py-4 rounded border border-slate-800 bg-white text-gray-900 font-bold sm:w-96 mt-2 hover:text-sky-600" 
                     :href="fullShortenedUrl" 

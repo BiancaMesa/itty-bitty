@@ -9,7 +9,7 @@ class AddUniqueIndexToShortUrls extends Migration
     public function up()
     {
         Schema::table('short_urls', function (Blueprint $table) {
-            $table->unique(['original_url', 'user_id']); // Ensure uniqueness for each user
+            $table->unique(['original_url', 'user_id']); 
         });
     }
 

@@ -16,14 +16,27 @@ class ShortUrlController extends Controller
         $user = auth()->user();
         $shortUrls = ShortUrl::where('user_id', $user->id)->get();
 
-        // Get the latest full shortened URL
+        // // Get the latest full shortened URL
         $latestFullShortenedUrl = $user->getLastFullShortenedUrl();
+        
+        // Check if the original URL exists in the short_urls table
+        // $existingShortUrl = ShortUrl::where('user_id', $user->id)
+        //                         ->where('original_url', request()->input('original_url'))
+        //                         ->first();
+
+        // $existingFullShortenedUrl = $existingShortUrl ? $existingShortUrl->full_shortened_url : null;
 
         return Inertia::render('Dashboard', [
             'shortUrls' => $shortUrls, //We pass all URLs
             'latestFullShortenedUrl' => $latestFullShortenedUrl, // we pass the latest URL to the view
             'shortenedUrl' => session('shortenedUrl'),
         ]);
+
+        // return Inertia::render('Dashboard', [
+        //     'shortUrls' => $shortUrls,
+        //     // 'existingFullShortenedUrl' => $existingFullShortenedUrl,
+        //     //'shortenedUrl' => session('shortenedUrl'),
+        // ]);
     }
 
     // Function to shorten a URL from the given original one  
