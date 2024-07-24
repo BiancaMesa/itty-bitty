@@ -32,7 +32,7 @@ const deleteUrl = async (id) => {
 </script>
 
 <template>
-    <section class="py-16 px-4 sm:px-6 lg:px-20 h-screen pb-0">
+    <section class="bg-sky-50 py-16 px-4 sm:px-6 lg:px-20 min-h-screen">
         <h2 class="text-sky-800 pb-4 font-extrabold text-center text-3xl">Manage Your URLs</h2>
         <div v-if="shortUrls.length === 0" class="text-center">
             <p>You have no URLs to manage.</p>
@@ -40,7 +40,7 @@ const deleteUrl = async (id) => {
         <div v-else>
             <ul>
                 <li v-for="url in shortUrls" :key="url.id" class="mb-4">
-                    <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between p-4 border border-gray-300 rounded-lg">
+                    <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between p-4 border border-gray-300 rounded-lg bg-white">
                         <div class="flex-1 w-full sm:w-auto">
                             <p><strong>Original URL:</strong> 
                                 <a 
