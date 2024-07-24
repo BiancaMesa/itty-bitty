@@ -1,22 +1,28 @@
 <p align="center">
-<img src="./public/itty_bitty_logo.png" width="400">
+<img src="./public/itty_bitty_logo.png" width="100">
 </p>
 
-## Itty Bitty 
-# A Laravel URL Shortener with Vue and Inertia.js
+# Itty Bitty 🌐
+## A Laravel URL Shortener with Vue and Inertia.js
 
 Welcome to the URL Shortener project! This project is a web application built using Laravel, Vue.js, and Inertia.js. It allows users to shorten URLs, manage their shortened URLs, and view analytics on URL clicks. Users must be registered and logged in to use the URL shortening service.
 
 
 ## Table of Contents
 
-- [Features] (#features)
-- [Installation] (#installation)
-- [Usage] (#Usage)
-- [Project Structure] (#project-structure)
-- [Contributing] (#contributing)
-- [License] (#license)
+- [Tecnologies Used](#tecnologies)
+- [Features](#features)
+- [Installation](#installation)
+- [Usage](#usage)
+- [Project Structure](#project-structure)
 
+## Technologies Used 🚀
+- Laravel 
+- Vue.js
+- Inertia.js 
+- Tailwind 
+- SQLite
+- Tailwind CSS
 
 ## Features
 - **User Authentication:** Users can register, log in, and manage their profiles.
@@ -25,7 +31,7 @@ Welcome to the URL Shortener project! This project is a web application built us
 - **Analytics:** Users can view click analytics for their shortened URLs.
 
 
-## Installation
+## Installation 🖥️
 To get started with this project, follow these steps:
 1. **Clone the repository:**   
 ```git clone https://github.com/BiancaMesa/itty-bitty.git```
@@ -60,12 +66,25 @@ To get started with this project, follow these steps:
 4. **View Analytics:** Access the analytics section to see the number of clicks each URL has received.
 
 ## Project Structure 
-I have build the project with the Laravel starter kit with Vue.js and Inertia.js. 
+The project has been vuilt using the Laravel starter kit with Vue.js and Inertia.js. 
 
 # Backend 
-To develop this project we have decided to create two tables in the database. One with the information of the user and another one with the information of the URLs: the original URL, the title, the shortened URL and its unique key, the number of clicks, and the user_id (which relates both tables). The relation between those tables has been one to many, so one user can have many URLs but each URL is linked to one user. 
+The database of choice for this project has been SQLite and TablePlus has been used as a tool to manage the databse.
+For the project, two tables have been created in the database. One with the information of the user and another one with the information of the URLs: the original URL, the title, the shortened URL and its unique key, the number of clicks, and the user_id (which relates both tables). The relation between those tables has been one to many, so one user can have many URLs but each URL is linked to one user. 
+
+The URL Shortener project's routing setup includes various HTTP methods to handle different functionalities. The get route for the home (/) displays a welcome page with login and registration options. Authentication routes handle user login and registration. Authenticated routes are grouped with a middleware to ensure only logged-in users can access them. These routes include get requests for the dashboard (/dashboard), profile editing (/profile), URL management (/manage-urls), and analytics (/analytics). The post route on the dashboard allows users to create short URLs, while the patch and delete routes on the profile handle profile updates and deletions. There is also a delete route for removing short URLs (/short-url/{id}). Finally, a public get route handles redirection for shortened URLs (/{shortUrlKey}).
 
 A regex has been included in form request to validate that the user puts a valid URL. 
 
+# Frontend 
+In the frontend of the URL Shortener project, we utilized Inertia.js to render React components seamlessly within our Laravel application.  
+The 'Welcome' component is rendered on the home page, displaying login and registration options based on the route's availability.
+The 'Dashboard' component acts as the main hub for user interaction within the application. From this central dashboard, users can access three key functionalities: ShortenUrl.vue, ManageUrl.vue, and Analytics.vue.
 
+- **'ShortenUrl' component:** This component is responsible for providing the form where users can input and submit URLs to be shortened. It handles POST requests to create new short URLs and displays any errors accordingly. 
 
+- **'ManageUrl' component:** This component allows users to view and manage their existing shortened URLs. Users can see a list of their short URLs, and perform actions such as deleting individual URLs with DELETE requests.
+
+- **'Analytics' component:** This component displays analytics and performance data for the shortened URLs. It provides users with insights into the number of clicks helping them track the effectiveness of their links.
+
+These components are rendered conditionally within the Dashboard.vue, depending on the user’s interactions and navigation choices. This modular approach allows for a dynamic and responsive user interface, enhancing the overall user experience by integrating these functionalities seamlessly within a single-page application framework.
