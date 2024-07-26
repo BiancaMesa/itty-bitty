@@ -14,6 +14,7 @@ const initialFullShortenedUrl = props.latestFullShortenedUrl || '';
 
 const fullShortenedUrl = ref(initialFullShortenedUrl);
 
+
 // Function to submit form ---> POST 
 const submitForm = async () => {
     const urlPattern = new RegExp(/^(https?:\/\/(www\.)?|www\.)/);
@@ -23,20 +24,20 @@ const submitForm = async () => {
         return;
     }
 
-    try {
-        const response = await form.post(route('short.url'), {
-            preserveState: true, // Preserve state during the request
-        });
-
-        if (response.data?.shortenedUrl) {
-            fullShortenedUrl.value = response.data.shortenedUrl;
-            errorMessage.value = '';
-        } else {
-            throw new Error('Unexpected response structure');
-        }
-    } catch (error) {
-        errorMessage.value = error.response?.data?.original_url || 'An unexpected error occurred. Please try again.';
-    }
+    form.post(route('short.url'), {
+        preserveState: true, // Preserve state during the request
+        onBefore: () => {
+                window.confirm('Create?');
+            },
+        onSuccess: (page) => {
+            console.log(page.props);
+            fullShortenedUrl.value = page.props?.shortenedUrl;
+        },
+        onError: (error) => {
+            errorMessage.value = error.response?.data?.original_url || 'An unexpected error occurred. Please try again.';1
+        },
+    });
+   
 };
 
 const copyToClipboard = () => {
@@ -94,6 +95,8 @@ const copyToClipboard = () => {
                     {{ fullShortenedUrl }}
             </a>
         </div>
+
+        <span>({{ fullShortenedUrl }})</span>
 
         <!-- Copy to Clipboard Button -->
         <div class="text-center mt-6">
