@@ -1,10 +1,9 @@
 <?php
 
 namespace App\Http\Controllers;
-
-use App\Http\Requests\ShortRequest;
+use App\Http\Requests\ShortRequest; 
 use App\Models\ShortUrl;
-use Illuminate\Support\Facades\Auth;
+// use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 use Inertia\Inertia;
 
@@ -16,11 +15,16 @@ class ShortUrlController extends Controller
         $shortUrls = ShortUrl::where('user_id', $user->id)->get();
 
         $latestFullShortenedUrl = $user->getLastFullShortenedUrl();
+        //$latestFullShortenedUrl = ShortUrl::where('user_id', $user->id)->latest()->first()->full_shortened_url ?? '';
 
+        // return Inertia::render('Dashboard', [
+        //     'shortUrls' => $shortUrls, 
+        //     'latestFullShortenedUrl' => $latestFullShortenedUrl, 
+        //     'shortenedUrl' => session('shortenedUrl'),
+        // ]);
         return Inertia::render('Dashboard', [
-            'shortUrls' => $shortUrls, 
-            'latestFullShortenedUrl' => $latestFullShortenedUrl, 
-            'shortenedUrl' => session('shortenedUrl'),
+            'shortUrls' => $shortUrls,
+            'latestFullShortenedUrl' => $latestFullShortenedUrl,
         ]);
     }
 
@@ -42,7 +46,11 @@ class ShortUrlController extends Controller
             'full_shortened_url' => $fullShortenedUrl,
         ]);
 
-        return Inertia::render('Dashboard', [
+        // return Inertia::render('Dashboard', [
+        //     'shortenedUrl' => $fullShortenedUrl,
+        //     'shortUrlId' => $shortUrl->id,
+        // ]);
+        return redirect()->route('dashboard')->with([
             'shortenedUrl' => $fullShortenedUrl,
             'shortUrlId' => $shortUrl->id,
         ]);
@@ -54,7 +62,20 @@ class ShortUrlController extends Controller
 
         $shortUrl->increment('clicks');
 
-        return redirect()->to($shortUrl->original_url);
+        // return Inertia::render('Redirect', [
+        //     'originalUrl' => $shortUrl->original_url,
+        // ]);
+
+        return redirect($shortUrl->original_url);
+    }
+
+    public function fetch($id)
+    {
+        $shortUrl = ShortUrl::findOrFail($id);
+
+        return Inertia::render('ShortUrlFetch', [
+            'fullShortenedUrl' => $shortUrl->full_shortened_url,
+        ]);
     }
 
 

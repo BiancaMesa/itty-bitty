@@ -1,6 +1,7 @@
 <script setup>
 import { ref } from 'vue'; 
 import { useForm, usePage } from '@inertiajs/vue3';
+import axios from 'axios';
 
 const form = useForm({
     title: '', 
@@ -10,11 +11,10 @@ const form = useForm({
 const errorMessage = ref('');
 
 const { props } = usePage();
-const initialFullShortenedUrl = props.latestFullShortenedUrl || '';
+const initialFullShortenedUrl = ref(props.latestFullShortenedUrl || '');
 
 const fullShortenedUrl = ref(initialFullShortenedUrl);
 
-// Function to submit form ---> POST 
 const submitForm = async () => {
     const urlPattern = new RegExp(/^(https?:\/\/(www\.)?|www\.)/);
 
@@ -24,22 +24,149 @@ const submitForm = async () => {
     }
 
     try {
-        const response = await form.post(route('short.url'), {
-            preserveState: true, // Preserve state during the request
+        await form.post(route('short.url'), {
+            onSuccess: async (page) => {
+                if (page.props.shortUrlId) {
+                    await fetchShortenedUrl(page.props.shortUrlId);
+                } else {
+                    throw new Error('Unexpected response structure');
+                }
+                errorMessage.value = '';
+            },
+            onError: (errors) => {
+                errorMessage.value = errors.original_url || 'An unexpected error occurred. Please try again.';
+            },
         });
+    } catch (error) {
+        errorMessage.value = error.message || 'An unexpected error occurred. Please try again.';
+    }
+};
 
-        if (response.data?.shortenedUrl) {
-            fullShortenedUrl.value = response.data.shortenedUrl;
-            errorMessage.value = '';
+
+// const submitForm = async () => {
+//     const urlPattern = new RegExp(/^(https?:\/\/(www\.)?|www\.)/);
+
+//     if (!urlPattern.test(form.original_url)) {
+//         errorMessage.value = 'The URL must start with "https://www.", "http://www.", "www.", "https://", or "http://".';
+//         return;
+//     }
+
+//     try {
+//         const response = await form.post(route('short.url'), {
+//             onSuccess: async (page) => {
+//                 if (page.props.shortUrlId) {
+//                     await fetchShortenedUrl(page.props.shortUrlId);
+//                 } else {
+//                     throw new Error('Unexpected response structure');
+//                 }
+//                 errorMessage.value = '';
+//             },
+//             onError: (errors) => {
+//                 errorMessage.value = errors.original_url || 'An unexpected error occurred. Please try again.';
+//             },
+//         });
+//     } catch (error) {
+//         errorMessage.value = error.message || 'An unexpected error occurred. Please try again.';
+//     }
+// };
+
+
+// //POST 
+// const submitForm = async () => {
+//     const urlPattern = new RegExp(/^(https?:\/\/(www\.)?|www\.)/);
+
+//     if (!urlPattern.test(form.original_url)) {
+//         errorMessage.value = 'The URL must start with "https://www.", "http://www.", "www.", "https://", or "http://".';
+//         return;
+//     }
+
+//     try {
+//         const response = await form.post(route('short.url'), {
+//             preserveState: true, // Preserve state during the request
+//         });
+
+//         if (response.props?.shortUrlId) {
+//             Inertia.get(route('short.url.fetch', { id: response.props.shortUrlId }), {
+//                 onSuccess: (page) => {
+//                     fullShortenedUrl.value = page.props.fullShortenedUrl;
+//                 },
+//             });
+//             errorMessage.value = '';
+//         } else {
+//             throw new Error('Unexpected response structure');
+//         }
+//     } catch (error) {
+//         errorMessage.value = error.response?.data?.original_url || 'An unexpected error occurred. Please try again.';
+//     }
+// };
+
+// const submitForm = async () => {
+//     const urlPattern = new RegExp(/^(https?:\/\/(www\.)?|www\.)/);
+
+//     if (!urlPattern.test(form.original_url)) {
+//         errorMessage.value = 'The URL must start with "https://www.", "http://www.", "www.", "https://", or "http://".';
+//         return;
+//     }
+
+//     try {
+//         const response = await form.post(route('short.url'), {
+//             preserveState: true, // Preserve state during the request
+//         });
+
+//         if (response.data?.shortUrlId) {
+//             await fetchShortenedUrl(response.data.shortUrlId);
+//             errorMessage.value = '';
+//         } else {
+//             throw new Error('Unexpected response structure');
+//         }
+//     } catch (error) {
+//         errorMessage.value = error.response?.data?.original_url || 'An unexpected error occurred. Please try again.';
+//     }
+// };
+
+// Function to submit form ---> POST 
+// const submitForm = async () => {
+//     const urlPattern = new RegExp(/^(https?:\/\/(www\.)?|www\.)/);
+
+//     if (!urlPattern.test(form.original_url)) {
+//         errorMessage.value = 'The URL must start with "https://www.", "http://www.", "www.", "https://", or "http://".';
+//         return;
+//     }
+
+//     try {
+//         const response = await form.post(route('short.url'), {
+//             preserveState: true, // Preserve state during the request
+//         });
+
+//         if (response.data?.shortenedUrl) {
+//             fullShortenedUrl.value = response.data.shortenedUrl;
+//             errorMessage.value = '';
+//         } else {
+//             throw new Error('Unexpected response structure');
+//         }
+//     } catch (error) {
+//         errorMessage.value = error.response?.data?.original_url || 'An unexpected error occurred. Please try again.';
+//     }
+// };
+
+
+
+//GET 
+const fetchShortenedUrl = async (shortUrlId) => {
+    try {
+        const response = await axios.get(route('short.url.fetch', { id: shortUrlId }));
+
+        if (response.data?.fullShortenedUrl) {
+            fullShortenedUrl.value = response.data.fullShortenedUrl;
         } else {
             throw new Error('Unexpected response structure');
         }
     } catch (error) {
-        errorMessage.value = error.response?.data?.original_url || 'An unexpected error occurred. Please try again.';
+        errorMessage.value = error.response?.data?.message || 'An error occurred while fetching the shortened URL.';
     }
 };
 
-const copyToClipboard = () => {
+const copyLink = () => {
     if (fullShortenedUrl.value) {
         navigator.clipboard.writeText(fullShortenedUrl.value)
     }
@@ -93,12 +220,19 @@ const copyToClipboard = () => {
                 rel="noopener noreferrer">
                     {{ fullShortenedUrl }}
             </a>
+            <!-- <span 
+                class="block px-6 py-3 rounded border border-slate-800 bg-white text-gray-900 font-bold mx-auto w-full overflow-hidden text-ellipsis whitespace-nowrap hover:text-sky-600"
+                :href="fullShortenedUrl"
+                target="_blank" 
+                rel="noopener noreferrer">
+                    {{ fullShortenedUrl }}
+            </span> -->
         </div>
 
-        <!-- Copy to Clipboard Button -->
+        <!-- Copy Link Button -->
         <div class="text-center mt-6">
-            <button class="px-6 py-2 bg-emerald-100 font-bold text-gray-700 hover:bg-emerald-300 hover:text-gray-800 rounded-lg text-sm md:text-base" @click="copyToClipboard">
-                Copy to Clipboard
+            <button class="px-6 py-2 bg-emerald-100 font-bold text-gray-700 hover:bg-emerald-200 hover:text-gray-800 rounded-lg text-sm md:text-base" @click="copyLink">
+                Copy Link
             </button>
         </div>
     </section>
