@@ -16,7 +16,6 @@ class ShortRequest extends FormRequest
         return [
             'title' => 'required|string|max:255',
             'original_url' => 'required|url',
-            // 'original_url' => ['required', 'regex:/^(https?:\/\/(www\.)?|www\.)/'],
         ];
     }
 

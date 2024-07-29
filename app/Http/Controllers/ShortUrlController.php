@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\ShortRequest;
 use App\Models\ShortUrl;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 use Inertia\Inertia;
 
@@ -13,7 +12,7 @@ class ShortUrlController extends Controller
 
     /**
      * API ROUTES
-     */
+    */
 
     public function show($shortUrlKey)
     {
@@ -34,6 +33,24 @@ class ShortUrlController extends Controller
         }
 
         $shortUrl->delete();
+
+        return response()->noContent();
+    }
+
+    public function destroyAll()
+    {
+        // $user = auth()->user();
+        // // $shortUrl = ShortUrl::findOrFail();
+        // $shortUrls = ShortUrl::where('user_id', $user->id)->get();
+
+        // if ($shortUrl->user_id !== auth()->id()) {
+        //     return response()->json(['message' => 'Unauthorized'], 403);
+        // }
+
+        // $shortUrls->delete();
+
+        $user = auth()->user();
+        $shortUrls = ShortUrl::where('user_id', $user->id)->delete();
 
         return response()->noContent();
     }
@@ -98,7 +115,7 @@ class ShortUrlController extends Controller
 
     /**
      * VIEW ROUTES
-     */
+    */
 
     public function manageUrls()
     {

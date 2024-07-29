@@ -29,18 +29,49 @@ const deleteUrl = async (id) => {
         }
     }
 };
+
+const deleteAll = async () => {
+    console.log('delete all button clicked')
+
+    if (confirm('Are you sure you want to delete all URLs?')) {
+        try {
+            // CSRF token is included in the request headers
+            const response = await fetch(route('short.url.delete.all'), {
+                method: 'DELETE',
+                headers: {
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+                    'Accept': 'application/json',
+                },
+            });
+            console.log('after fetch')
+
+            if (response.ok) {
+                console.log('response.ok')
+                // Remove the deleted URL from the list
+                // Update the shortUrls array 
+                shortUrls.value = [];
+            } else {
+                const errorData = await response.json();
+                alert(errorData.message || 'Failed to delete URLs');
+            }
+        } catch (error) {
+            alert('An error occurred while trying to delete the URLs');
+        }
+    }
+}
 </script>
 
 <template>
-    <section class="bg-white py-16 px-4 sm:px-6 lg:px-20 min-h-screen">
+    <section class="bg-white py-16 px-4 sm:px-6 lg:px-20 min-h-screen flex flex-col text-center">
         <h2 class="text-sky-800 pb-8 font-extrabold text-center text-3xl">Manage Your URLs</h2>
         <div v-if="shortUrls.length === 0" class="text-center">
             <p>You have no URLs to manage.</p>
         </div>
         <div v-else>
+            <button class="border border-gray-300 px-6 py-2 rounded mb-4 font-bold bg-emerald-50" @click="deleteAll" >Delete All</button>
             <ul>
                 <li v-for="url in shortUrls" :key="url.id" class="mb-4">
-                    <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between p-4 border border-gray-300 rounded-lg bg-white">
+                    <div class="flex sm:flex-row items-start sm:items-center justify-between p-4 border border-gray-300 rounded-lg bg-white">
                         <div class="flex-1 w-full sm:w-auto">
                             <p><strong>Name:</strong> 
                                 <a 
