@@ -70,6 +70,8 @@ onMounted(() => {
     <div ref="chartContainer" class="w-full h-64 sm:h-80 md:h-96 lg:h-[500px] flex justify-center">
     </div>
 
+
+    <!-- No name on table to match with the analytics chart -->
     <!-- Responsive Table -->
     <div class="overflow-x-auto mt-10 w-full max-w-4xl">
       <table class="w-full bg-white border border-gray-200 mt-8 text-sm">

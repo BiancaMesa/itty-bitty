@@ -14,6 +14,7 @@ const initialFullShortenedUrl = props.latestFullShortenedUrl || '';
 
 const fullShortenedUrl = ref(initialFullShortenedUrl);
 
+
 // Function to submit form ---> POST 
 const submitForm = async () => {
     const urlPattern = new RegExp(/^(https?:\/\/(www\.)?|www\.)/);
@@ -25,9 +26,9 @@ const submitForm = async () => {
 
     form.post(route('short.url'), {
         preserveState: true, // Preserve state during the request
-        // onBefore: () => {
-        //         window.confirm('Create?');
-        // },
+        onBefore: () => {
+                window.confirm('Create?');
+            },
         onSuccess: (page) => {
             console.log(page.props);
             fullShortenedUrl.value = page.props?.shortenedUrl;
@@ -36,6 +37,7 @@ const submitForm = async () => {
             errorMessage.value = error.response?.data?.original_url || 'An unexpected error occurred. Please try again.';1
         },
     });
+   
 };
 
 const copyLink = () => {
@@ -94,7 +96,9 @@ const copyLink = () => {
             </a>
         </div>
 
-        <!-- Copy Link Button -->
+        <span>({{ fullShortenedUrl }})</span>
+
+        <!-- Copy to Clipboard Button -->
         <div class="text-center mt-6">
             <button class="px-6 py-2 bg-emerald-100 font-bold text-gray-700 hover:bg-emerald-200 hover:text-gray-800 rounded-lg text-sm md:text-base" @click="copyLink">
                 Copy Link
