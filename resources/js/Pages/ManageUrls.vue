@@ -33,7 +33,7 @@ const deleteUrl = async (id) => {
 
 <template>
     <section class="bg-white py-16 px-4 sm:px-6 lg:px-20 min-h-screen">
-        <h2 class="text-sky-800 pb-4 font-extrabold text-center text-3xl">Manage Your URLs</h2>
+        <h2 class="text-sky-800 pb-8 font-extrabold text-center text-3xl">Manage Your URLs</h2>
         <div v-if="shortUrls.length === 0" class="text-center">
             <p>You have no URLs to manage.</p>
         </div>

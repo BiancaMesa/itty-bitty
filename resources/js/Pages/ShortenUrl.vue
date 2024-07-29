@@ -48,10 +48,10 @@ const copyLink = () => {
 </script>
 
 <template>
-    <section class="w-screen h-screen bg-white flex flex-col items-center py-8 px-4">
+    <section class="w-screen h-screen bg-white flex flex-col items-center py-16 px-4">
         <!-- URL Shortening Form -->
         <div class="text-center w-full max-w-md mx-auto">
-            <h1 class="text-sky-800 mb-4 font-extrabold text-2xl lg:text-3xl">Enter Your Long URL:</h1>
+            <h1 class="text-sky-800 mb-4 font-extrabold text-3xl lg:text-3xl ">Enter Your Long URL:</h1>
             <form class="flex flex-col gap-4 w-full mx-auto" @submit.prevent="submitForm">
                 <input 
                     class="border border-gray-300 rounded-lg w-full p-3 text-sm md:text-base"
@@ -83,8 +83,8 @@ const copyLink = () => {
         </span>
 
         <!-- Display latest shortened URL -->
-        <div class="text-center w-full max-w-md mx-auto mt-10">
-            <h3 class="font-semibold mb-4 text-cyan-700 text-2xl lg:text-3xl">Your Shortened URL:</h3>
+        <div class="text-center w-full max-w-md mx-auto mt-16">
+            <h3 class="font-semibold mb-4 text-cyan-700 text-3xl lg:text-3xl">Your Shortened URL:</h3>
             <span class="block px-6 py-3 rounded border border-gray-300 rounded-lg bg-white text-gray-900 font-bold mx-auto w-full overflow-hidden text-ellipsis whitespace-nowrap hover:text-sky-600">
                 <a 
                 class="bg-white text-gray-900 font-bold mx-auto w-full overflow-hidden text-ellipsis whitespace-nowrap hover:text-sky-600"

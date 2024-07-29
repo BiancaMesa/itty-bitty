@@ -63,8 +63,8 @@ onMounted(() => {
 </script>
 
 <template>
-  <section class="w-full min-h-screen bg-white p-8 flex flex-col items-center">
-    <h1 class="text-2xl font-bold mb-4">URL Analytics</h1>
+  <section class="w-full min-h-screen bg-white p-8 py-16 px-4 flex flex-col items-center">
+    <h1 class="text-3xl font-bold mb-4 text-sky-800">URL Analytics</h1>
 
     <!-- ECharts Container -->
     <div ref="chartContainer" class="w-full h-64 sm:h-80 md:h-96 lg:h-[500px] flex justify-center">
