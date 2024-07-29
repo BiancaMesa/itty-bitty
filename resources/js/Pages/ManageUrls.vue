@@ -47,7 +47,6 @@ const deleteAll = async () => {
 
             if (response.ok) {
                 console.log('response.ok')
-                // Remove the deleted URL from the list
                 // Update the shortUrls array 
                 shortUrls.value = [];
             } else {

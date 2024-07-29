@@ -39,18 +39,8 @@ class ShortUrlController extends Controller
 
     public function destroyAll()
     {
-        // $user = auth()->user();
-        // // $shortUrl = ShortUrl::findOrFail();
-        // $shortUrls = ShortUrl::where('user_id', $user->id)->get();
-
-        // if ($shortUrl->user_id !== auth()->id()) {
-        //     return response()->json(['message' => 'Unauthorized'], 403);
-        // }
-
-        // $shortUrls->delete();
-
         $user = auth()->user();
-        $shortUrls = ShortUrl::where('user_id', $user->id)->delete();
+        ShortUrl::where('user_id', $user->id)->delete();
 
         return response()->noContent();
     }
