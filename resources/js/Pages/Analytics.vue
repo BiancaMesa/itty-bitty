@@ -75,6 +75,7 @@ onMounted(() => {
       <table class="w-full bg-white border border-gray-200 mt-8 text-sm">
         <thead>
           <tr>
+            <th class="py-2 px-4 border-b text-left">Name</th>
             <th class="py-2 px-4 border-b text-left">Original URL</th>
             <th class="py-2 px-4 border-b text-left">Shortened URL</th>
             <th class="py-2 px-4 border-b text-left">Clicks</th>
@@ -82,6 +83,7 @@ onMounted(() => {
         </thead>
         <tbody class="bg-white text-sm">
           <tr v-for="shortUrl in shortUrls" :key="shortUrl.id">
+            <td class="py-2 px-4 border-b break-words">{{ shortUrl.title }}</td>
             <td class="py-2 px-4 border-b break-words">{{ shortUrl.original_url }}</td>
             <td class="py-2 px-4 border-b break-words">
               <a :href="shortUrl.full_shortened_url" target="_blank" rel="noopener noreferrer">

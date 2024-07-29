@@ -23,23 +23,22 @@ const submitForm = async () => {
         return;
     }
 
-    try {
-        const response = await form.post(route('short.url'), {
-            preserveState: true, // Preserve state during the request
-        });
-
-        if (response.data?.shortenedUrl) {
-            fullShortenedUrl.value = response.data.shortenedUrl;
-            errorMessage.value = '';
-        } else {
-            throw new Error('Unexpected response structure');
-        }
-    } catch (error) {
-        errorMessage.value = error.response?.data?.original_url || 'An unexpected error occurred. Please try again.';
-    }
+    form.post(route('short.url'), {
+        preserveState: true, // Preserve state during the request
+        // onBefore: () => {
+        //         window.confirm('Create?');
+        // },
+        onSuccess: (page) => {
+            console.log(page.props);
+            fullShortenedUrl.value = page.props?.shortenedUrl;
+        },
+        onError: (error) => {
+            errorMessage.value = error.response?.data?.original_url || 'An unexpected error occurred. Please try again.';1
+        },
+    });
 };
 
-const copyToClipboard = () => {
+const copyLink = () => {
     if (fullShortenedUrl.value) {
         navigator.clipboard.writeText(fullShortenedUrl.value)
     }
@@ -95,10 +94,10 @@ const copyToClipboard = () => {
             </a>
         </div>
 
-        <!-- Copy to Clipboard Button -->
+        <!-- Copy Link Button -->
         <div class="text-center mt-6">
-            <button class="px-6 py-2 bg-emerald-100 font-bold text-gray-700 hover:bg-emerald-300 hover:text-gray-800 rounded-lg text-sm md:text-base" @click="copyToClipboard">
-                Copy to Clipboard
+            <button class="px-6 py-2 bg-emerald-100 font-bold text-gray-700 hover:bg-emerald-200 hover:text-gray-800 rounded-lg text-sm md:text-base" @click="copyLink">
+                Copy Link
             </button>
         </div>
     </section>

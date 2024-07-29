@@ -10,43 +10,10 @@ use Inertia\Inertia;
 
 class ShortUrlController extends Controller
 {
-    public function index()
-    {
-        $user = auth()->user();
-        $shortUrls = ShortUrl::where('user_id', $user->id)->get();
 
-        $latestFullShortenedUrl = $user->getLastFullShortenedUrl();
-
-        return Inertia::render('Dashboard', [
-            'shortUrls' => $shortUrls, 
-            'latestFullShortenedUrl' => $latestFullShortenedUrl, 
-            'shortenedUrl' => session('shortenedUrl'),
-        ]);
-    }
-
-    public function short(ShortRequest $request)
-    {
-        $request->validate([
-            'title' => 'required|string|max:100',
-            'original_url' => 'required|url',
-        ]);
-
-        $shortUrlKey = Str::random(6);
-        $fullShortenedUrl = url('/' . $shortUrlKey);
-
-        $shortUrl = ShortUrl::create([
-            'user_id' => auth()->id(), 
-            'title' => $request->title,
-            'original_url' => $request->original_url,
-            'short_url_key' => $shortUrlKey,
-            'full_shortened_url' => $fullShortenedUrl,
-        ]);
-
-        return Inertia::render('Dashboard', [
-            'shortenedUrl' => $fullShortenedUrl,
-            'shortUrlId' => $shortUrl->id,
-        ]);
-    }
+    /**
+     * API ROUTES
+     */
 
     public function show($shortUrlKey)
     {
@@ -68,8 +35,70 @@ class ShortUrlController extends Controller
 
         $shortUrl->delete();
 
-        return response()->noContent(); 
+        return response()->noContent();
     }
+
+
+    /**
+     * THIS ROUTE IS API BUT RETURNS VIEW
+     */
+
+    public function short(ShortRequest $request)
+    {
+        //doble validation
+        // $request->validate([
+        //     'title' => 'required|string|max:100',
+        //     'original_url' => 'required|url',
+        // ]);
+        $data = $request->validated();
+
+        //no es unico el url
+        //  Generar un metodo que compruebe si ya existe ese url en la base de datos
+        // $shortUrlKey = Str::random(6);
+        $shortUrlKey = $this->genereteShortUrlKey();
+        $fullShortenedUrl = url('/' . $shortUrlKey);
+
+        // $shortUrl = ShortUrl::create([
+        //     'user_id' => auth()->id(), 
+        //     'title' => $request->title,
+        //     'original_url' => $request->original_url,
+        //     'short_url_key' => $shortUrlKey,
+        //     'full_shortened_url' => $fullShortenedUrl,
+        // ]);
+
+        $shortUrl = ShortUrl::create([
+            'user_id' => auth()->id(),
+            'title' => data_get($data, 'title', 'Sin titulo'),// $data['title'],
+            'original_url' => data_get($data, 'original_url'),
+            'short_url_key' => $shortUrlKey,
+            'full_shortened_url' => $fullShortenedUrl,
+        ]);
+
+        return Inertia::render('Dashboard', [
+            'shortenedUrl' => $fullShortenedUrl,
+            'shortUrlId' => $shortUrl->id,
+        ]);
+    }
+
+    private function genereteShortUrlKey()
+    {
+        //1 Generar el random
+        $shortUrlKey = Str::random(6);
+
+        //2 Comprobar si existe en la base de datos
+        //3 Si existe, generar otro llamandose asi mismo
+        if (ShortUrl::where('short_url_key', $shortUrlKey)->exists()) {
+            $shortUrlKey = $this->genereteShortUrlKey();
+        }
+
+        //4 Si no existe, devolver el key
+        return $shortUrlKey;
+    }
+
+
+    /**
+     * VIEW ROUTES
+     */
 
     public function manageUrls()
     {
@@ -89,4 +118,19 @@ class ShortUrlController extends Controller
             'shortUrls' => $shortUrls,
         ]);
     }
+
+    public function index()
+    {
+        $user = auth()->user();
+        $shortUrls = ShortUrl::where('user_id', $user->id)->get();
+
+        $latestFullShortenedUrl = $user->getLastFullShortenedUrl();
+
+        return Inertia::render('Dashboard', [
+            'shortUrls' => $shortUrls,
+            'latestFullShortenedUrl' => $latestFullShortenedUrl,
+            'shortenedUrl' => session('shortenedUrl'),//??
+        ]);
+    }
+
 }

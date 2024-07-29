@@ -42,6 +42,15 @@ const deleteUrl = async (id) => {
                 <li v-for="url in shortUrls" :key="url.id" class="mb-4">
                     <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between p-4 border border-gray-300 rounded-lg bg-white">
                         <div class="flex-1 w-full sm:w-auto">
+                            <p><strong>Name:</strong> 
+                                <a 
+                                    :href="url.original_url" 
+                                    class="text-gray-600 hover:text-blue-400 pl-2 break-all" 
+                                    target="_blank" 
+                                    rel="noopener noreferrer">
+                                        {{ url.title }}
+                                </a>
+                            </p>
                             <p><strong>Original URL:</strong> 
                                 <a 
                                     :href="url.original_url" 
