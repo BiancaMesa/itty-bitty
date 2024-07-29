@@ -63,7 +63,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <main class="w-full min-h-screen bg-sky-50 p-8 flex flex-col items-center">
+  <section class="w-full min-h-screen bg-white p-8 flex flex-col items-center">
     <h1 class="text-2xl font-bold mb-4">URL Analytics</h1>
 
     <!-- ECharts Container -->
@@ -71,11 +71,10 @@ onMounted(() => {
     </div>
 
 
-    <!-- No name on table to match with the analytics chart -->
-    <!-- Responsive Table -->
+    <!-- Table -->
     <div class="overflow-x-auto mt-10 w-full max-w-4xl">
       <table class="w-full bg-white border border-gray-200 mt-8 text-sm">
-        <thead>
+        <thead class="bg-sky-100">
           <tr>
             <th class="py-2 px-4 border-b text-left">Name</th>
             <th class="py-2 px-4 border-b text-left">Original URL</th>
@@ -97,5 +96,5 @@ onMounted(() => {
         </tbody>
       </table>
     </div>
-  </main>
+  </section>
 </template>
