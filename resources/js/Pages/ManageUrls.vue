@@ -61,13 +61,16 @@ const deleteAll = async () => {
 </script>
 
 <template>
-    <section class="bg-white py-16 px-4 sm:px-6 lg:px-20 min-h-screen flex flex-col text-center">
+    <section class="bg-white py-16 px-4 sm:px-6 lg:px-20 min-h-screen flex flex-col">
         <h2 class="text-sky-800 pb-8 font-extrabold text-center text-3xl">Manage Your URLs</h2>
         <div v-if="shortUrls.length === 0" class="text-center">
             <p>You have no URLs to manage.</p>
         </div>
         <div v-else>
-            <button class="border border-gray-300 px-6 py-2 rounded mb-4 font-bold bg-emerald-50" @click="deleteAll" >Delete All</button>
+            <div class="flex justify-center mb-4">
+                <!-- <button class="border border-gray-300 px-6 py-2 rounded mb-4 font-bold bg-emerald-50 hover:bg-red-50 hover:text-red-400 hover:border-red-100" @click="deleteAll" >Delete All</button> -->
+                <button class="border border-gray-300 px-6 py-2 rounded mb-4 font-bold bg-emerald-50 hover:text-red-400 hover:bg-white hover:border-red-200" @click="deleteAll" >Delete All</button>
+            </div>
             <ul>
                 <li v-for="url in shortUrls" :key="url.id" class="mb-4">
                     <div class="flex sm:flex-row items-start sm:items-center justify-between p-4 border border-gray-300 rounded-lg bg-white">
@@ -100,7 +103,8 @@ const deleteAll = async () => {
                                 </a>
                             </p>
                         </div>
-                        <button @click="deleteUrl(url.id)" class="mt-4 sm:mt-0 text-red-600 hover:text-red-800">Delete</button>
+                        <!-- <button @click="deleteUrl(url.id)" class="mt-4 sm:mt-0 text-red-600 hover:text-red-800">Delete</button> -->
+                        <button @click="deleteUrl(url.id)" class="mt-4 sm:mt-0 border border-gray-300 px-6 py-2 rounded mb-4 font-bold bg-emerald-50 hover:text-red-400 hover:bg-white hover:border-red-200">Delete</button>
                     </div>
                 </li>
             </ul>

@@ -1,22 +1,73 @@
 <script setup>
-import { ref, onMounted } from 'vue';
+import { ref, onMounted, watch } from 'vue';
 import * as echarts from 'echarts';
 import { usePage } from '@inertiajs/vue3';
 
 // Get the props from back
 const { props } = usePage();
-const shortUrls = props.shortUrls || [];
+const shortUrls = ref(props.shortUrls || []);
 
 // Reference to the ECharts container
 const chartContainer = ref(null);
+let chart = null; 
 
-onMounted(() => {
-  // Initialize ECharts
-  const chart = echarts.init(chartContainer.value);
+// onMounted(() => {
+//   // Initialize ECharts
+//   const chart = echarts.init(chartContainer.value);
+
+//   // Prepare data for the chart
+//   const labels = shortUrls.map(url => url.title);
+//   const data = shortUrls.map(url => url.clicks);
+
+//   // Set chart options
+//   const options = {
+//     title: {
+//       text: 'Number of Clicks per URL',
+//     },
+//     tooltip: {
+//       trigger: 'item',
+//     },
+//     xAxis: {
+//       type: 'category',
+//       data: labels,
+//       axisLabel: {
+//         rotate: 45, // Labels will appear rotated
+//         formatter: (value) => {
+//           // Truncate the URL for display purposes with an ellipsis
+//           return value.length > 50 ? `${value.substring(0, 50)}...` : value;
+//         },
+//       },
+//     },
+//     yAxis: {
+//       type: 'value',
+//     },
+//     series: [
+//       {
+//         name: 'Clicks',
+//         type: 'bar',
+//         data: data,
+//         itemStyle: {
+//           color: '#42A5F5',
+//         },
+//       },
+//     ],
+//   };
+
+
+
+
+// Function to initialize and update the chart
+const initChart = () => {
+  if (!chartContainer.value) return;
+
+  // Initialize ECharts or get the existing instance
+  if (!chart) {
+    chart = echarts.init(chartContainer.value);
+  }
 
   // Prepare data for the chart
-  const labels = shortUrls.map(url => url.title);
-  const data = shortUrls.map(url => url.clicks);
+  const labels = shortUrls.value.map(url => url.title);
+  const data = shortUrls.value.map(url => url.clicks);
 
   // Set chart options
   const options = {
@@ -54,12 +105,27 @@ onMounted(() => {
 
   // Set the options and render the chart
   chart.setOption(options);
-  
+};
+
+// Initialize the chart and set up watchers
+onMounted(() => {
+  // Initialize the chart
+  initChart();
+
+  // Watch for changes in shortUrls
+  watch(() => props.shortUrls, (newShortUrls) => {
+    shortUrls.value = newShortUrls;
+    initChart();
+  });
+
   // Handle window resize events
   window.addEventListener('resize', () => {
-    chart.resize();
+    if (chart) {
+      chart.resize();
+    }
   });
 });
+
 </script>
 
 <template>

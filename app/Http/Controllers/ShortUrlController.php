@@ -10,9 +10,7 @@ use Inertia\Inertia;
 class ShortUrlController extends Controller
 {
 
-    /**
-     * API ROUTES
-    */
+    /* API ROUTES: "they don't return anything", they perform a task (show, destroy) */
 
     public function show($shortUrlKey)
     {
@@ -46,22 +44,12 @@ class ShortUrlController extends Controller
     }
 
 
-    /**
-     * THIS ROUTE IS API BUT RETURNS VIEW
-     */
+    /* API ROUTE BUT RETURNS A VIEW */
 
     public function short(ShortRequest $request)
     {
-        //doble validation
-        // $request->validate([
-        //     'title' => 'required|string|max:100',
-        //     'original_url' => 'required|url',
-        // ]);
         $data = $request->validated();
 
-        //no es unico el url
-        //  Generar un metodo que compruebe si ya existe ese url en la base de datos
-        // $shortUrlKey = Str::random(6);
         $shortUrlKey = $this->genereteShortUrlKey();
         $fullShortenedUrl = url('/' . $shortUrlKey);
 
@@ -75,7 +63,7 @@ class ShortUrlController extends Controller
 
         $shortUrl = ShortUrl::create([
             'user_id' => auth()->id(),
-            'title' => data_get($data, 'title', 'Sin titulo'),// $data['title'],
+            'title' => data_get($data, 'title', 'No title'),// $data['title'],
             'original_url' => data_get($data, 'original_url'),
             'short_url_key' => $shortUrlKey,
             'full_shortened_url' => $fullShortenedUrl,
@@ -87,25 +75,26 @@ class ShortUrlController extends Controller
         ]);
     }
 
+    // We create a private function to generate a short URL key 
+    // and check if there is already a short URL key in the DB 
+    // with that same combination. 
     private function genereteShortUrlKey()
     {
-        //1 Generar el random
+        //1. Generate random combination 
         $shortUrlKey = Str::random(6);
 
-        //2 Comprobar si existe en la base de datos
-        //3 Si existe, generar otro llamandose asi mismo
+        //2. Check if that combination already exists in the DB 
+        //3. If so, we generate another random key but calling this function again
         if (ShortUrl::where('short_url_key', $shortUrlKey)->exists()) {
             $shortUrlKey = $this->genereteShortUrlKey();
         }
 
-        //4 Si no existe, devolver el key
+        //4. If it doesn't, we return the key
         return $shortUrlKey;
     }
 
 
-    /**
-     * VIEW ROUTES
-    */
+    /* VIEW ROUTES */
 
     public function manageUrls()
     {
@@ -136,7 +125,6 @@ class ShortUrlController extends Controller
         return Inertia::render('Dashboard', [
             'shortUrls' => $shortUrls,
             'latestFullShortenedUrl' => $latestFullShortenedUrl,
-            'shortenedUrl' => session('shortenedUrl'),//??
         ]);
     }
 
