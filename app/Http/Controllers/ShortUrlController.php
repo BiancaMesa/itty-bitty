@@ -10,7 +10,7 @@ use Inertia\Inertia;
 class ShortUrlController extends Controller
 {
 
-    /* API ROUTES: "they don't return anything", they perform a task (show, destroy) */
+    /* API ROUTES: "they don't return anything", they perform a task (show, destroy, get) */
 
     public function show($shortUrlKey)
     {
@@ -43,6 +43,14 @@ class ShortUrlController extends Controller
         return response()->noContent();
     }
 
+    public function getShortUrls()
+    {
+        $user = auth()->user();
+        $shortUrls = ShortUrl::where('user_id', $user->id)->get();
+
+        return response()->json($shortUrls);
+    }
+
 
     /* API ROUTE BUT RETURNS A VIEW */
 
@@ -52,14 +60,6 @@ class ShortUrlController extends Controller
 
         $shortUrlKey = $this->genereteShortUrlKey();
         $fullShortenedUrl = url('/' . $shortUrlKey);
-
-        // $shortUrl = ShortUrl::create([
-        //     'user_id' => auth()->id(), 
-        //     'title' => $request->title,
-        //     'original_url' => $request->original_url,
-        //     'short_url_key' => $shortUrlKey,
-        //     'full_shortened_url' => $fullShortenedUrl,
-        // ]);
 
         $shortUrl = ShortUrl::create([
             'user_id' => auth()->id(),
@@ -127,5 +127,4 @@ class ShortUrlController extends Controller
             'latestFullShortenedUrl' => $latestFullShortenedUrl,
         ]);
     }
-
 }

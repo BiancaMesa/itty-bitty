@@ -19,6 +19,7 @@
     },
     "dependencies": {
         "echarts": "^5.5.1",
+        "pinia": "^2.2.0",
         "vuex": "^4.0.2"
     }
 }

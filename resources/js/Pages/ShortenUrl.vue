@@ -1,6 +1,7 @@
 <script setup>
 import { ref } from 'vue'; 
-import { useForm, usePage } from '@inertiajs/vue3';
+import { useForm } from '@inertiajs/vue3';
+import { useUrlStore } from '@/stores/urlStore';
 
 const form = useForm({
     title: '', 
@@ -9,13 +10,9 @@ const form = useForm({
 
 const errorMessage = ref('');
 
-const { props } = usePage();
-const initialFullShortenedUrl = props.latestFullShortenedUrl || '';
+const urlStore = useUrlStore();
 
-const fullShortenedUrl = ref(initialFullShortenedUrl);
-
-
-// Function to submit form ---> POST 
+// Function to submit form (POST)
 const submitForm = async () => {
     const urlPattern = new RegExp(/^(https?:\/\/(www\.)?|www\.)/);
 
@@ -24,14 +21,22 @@ const submitForm = async () => {
         return;
     }
 
+    // The Inertia form is submitted,
+    // it sends a request to the server, 
+    // which then responds with a "page" object 
+    // containing the new component props, including any updates to the data. 
+    // To access the props in data, we use data.props. 
     form.post(route('short.url'), {
         preserveState: true, // Preserve state during the request
-        //onBefore: () => {
-                //window.confirm('Create?');
-        //},
         onSuccess: (page) => {
-            console.log(page.props);
-            fullShortenedUrl.value = page.props?.shortenedUrl;
+            console.log(page);
+            //fullShortenedUrl.value = page.props?.shortenedUrl;
+            // The new short Url is found within the page object, in the prop property, in its property shortenedUrl. 
+            const newUrl = page.props.shortenedUrl;
+            console.log('The newUrl is:', newUrl);
+            // We pass this newUrl as an argument to this function to add the newUrl in the database. 
+            urlStore.addShortUrl(newUrl);
+            urlStore.setLatestFullShortenedUrl(newUrl);
         },
         onError: (error) => {
             errorMessage.value = error.response?.data?.original_url || 'An unexpected error occurred. Please try again.';1
@@ -41,8 +46,8 @@ const submitForm = async () => {
 };
 
 const copyLink = () => {
-    if (fullShortenedUrl.value) {
-        navigator.clipboard.writeText(fullShortenedUrl.value)
+    if (urlStore.latestFullShortenedUrl) {
+        navigator.clipboard.writeText(urlStore.latestFullShortenedUrl);
     }
 };
 </script>
@@ -62,7 +67,6 @@ const copyLink = () => {
                     placeholder="Title"
                     required
                 >
-
                 <input 
                     class="border border-gray-300 rounded-lg w-full p-3 text-sm md:text-base"
                     type="url" 
@@ -72,7 +76,6 @@ const copyLink = () => {
                     placeholder="Original URL"
                     required
                 >
-
                 <button class="px-6 py-2 bg-sky-200 font-bold text-gray-700 hover:bg-sky-300 hover:text-gray-800 rounded-lg text-sm md:text-base" type="submit">Submit</button>
             </form>
         </div>
@@ -88,11 +91,11 @@ const copyLink = () => {
             <span class="block px-6 py-3 rounded border border-gray-300 rounded-lg bg-white text-gray-900 font-bold mx-auto w-full overflow-hidden text-ellipsis whitespace-nowrap hover:text-sky-600">
                 <a 
                 class="bg-white text-gray-900 font-bold mx-auto w-full overflow-hidden text-ellipsis whitespace-nowrap hover:text-sky-600"
-                :href="fullShortenedUrl"
+                :href="urlStore.latestFullShortenedUrl"
                 target="_blank" 
                 rel="noopener noreferrer">
-                    {{ fullShortenedUrl }}
-            </a>
+                      {{ urlStore.latestFullShortenedUrl }}
+                </a>
         </span>
         </div>
 

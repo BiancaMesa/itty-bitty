@@ -33,6 +33,9 @@ Route::middleware('auth')->group(function () {
 
     // Route for the user to delete all URLs
     Route::delete('/short-url', [ShortUrlController::class, 'destroyAll'])->name('short.url.delete.all');
+
+    // API route to fetch all short URLs 
+    Route::get('/short-urls', [ShortUrlController::class, 'getShortUrls'])->name('short.urls');
 });
 
 //Public route for shortened URL

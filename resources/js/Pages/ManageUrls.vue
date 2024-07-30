@@ -1,9 +1,9 @@
 <script setup>
-import { ref } from 'vue';
-import { usePage } from '@inertiajs/vue3';
+//import { ref } from 'vue';
+import { useUrlStore } from '@/stores/urlStore';
 
-const { props } = usePage();
-const shortUrls = ref(props.shortUrls || []);
+const urlStore = useUrlStore();
+//const shortUrls = ref(urlStore.shortUrls);
 
 const deleteUrl = async (id) => {
     if (confirm('Are you sure you want to delete this URL?')) {
@@ -18,8 +18,8 @@ const deleteUrl = async (id) => {
             });
 
             if (response.ok) {
-                // Remove the deleted URL from the list
-                shortUrls.value = shortUrls.value.filter(url => url.id !== id);
+                // Remove the deleted URL and update shortUrls array
+                urlStore.deleteShortUrl(id);
             } else {
                 const errorData = await response.json();
                 alert(errorData.message || 'Failed to delete URL');
@@ -31,8 +31,6 @@ const deleteUrl = async (id) => {
 };
 
 const deleteAll = async () => {
-    console.log('delete all button clicked')
-
     if (confirm('Are you sure you want to delete all URLs?')) {
         try {
             // CSRF token is included in the request headers
@@ -43,12 +41,10 @@ const deleteAll = async () => {
                     'Accept': 'application/json',
                 },
             });
-            console.log('after fetch')
 
             if (response.ok) {
-                console.log('response.ok')
-                // Update the shortUrls array 
-                shortUrls.value = [];
+                // Delete all and update the shortUrls array 
+                urlStore.deleteAllShortUrls();
             } else {
                 const errorData = await response.json();
                 alert(errorData.message || 'Failed to delete URLs');
@@ -63,16 +59,15 @@ const deleteAll = async () => {
 <template>
     <section class="bg-white py-16 px-4 sm:px-6 lg:px-20 min-h-screen flex flex-col">
         <h2 class="text-sky-800 pb-8 font-extrabold text-center text-3xl">Manage Your URLs</h2>
-        <div v-if="shortUrls.length === 0" class="text-center">
+        <div v-if="urlStore.shortUrls.length === 0" class="text-center">
             <p>You have no URLs to manage.</p>
         </div>
         <div v-else>
             <div class="flex justify-center mb-4">
-                <!-- <button class="border border-gray-300 px-6 py-2 rounded mb-4 font-bold bg-emerald-50 hover:bg-red-50 hover:text-red-400 hover:border-red-100" @click="deleteAll" >Delete All</button> -->
                 <button class="border border-gray-300 px-6 py-2 rounded mb-4 font-bold bg-emerald-50 hover:text-red-400 hover:bg-white hover:border-red-200" @click="deleteAll" >Delete All</button>
             </div>
             <ul>
-                <li v-for="url in shortUrls" :key="url.id" class="mb-4">
+                <li v-for="url in urlStore.shortUrls" :key="url.id" class="mb-4">
                     <div class="flex sm:flex-row items-start sm:items-center justify-between p-4 border border-gray-300 rounded-lg bg-white">
                         <div class="flex-1 w-full sm:w-auto">
                             <p><strong>Name:</strong> 
@@ -103,7 +98,6 @@ const deleteAll = async () => {
                                 </a>
                             </p>
                         </div>
-                        <!-- <button @click="deleteUrl(url.id)" class="mt-4 sm:mt-0 text-red-600 hover:text-red-800">Delete</button> -->
                         <button @click="deleteUrl(url.id)" class="mt-4 sm:mt-0 border border-gray-300 px-6 py-2 rounded mb-4 font-bold bg-emerald-50 hover:text-red-400 hover:bg-white hover:border-red-200">Delete</button>
                     </div>
                 </li>

@@ -1,28 +1,18 @@
 <script setup>
 import { ref } from 'vue';
+import { Head } from '@inertiajs/vue3';
+import { useUrlStore } from '@/stores/urlStore';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
-import { Head, usePage } from '@inertiajs/vue3';
 import ShortenUrl from './ShortenUrl.vue';
 import ManageUrls from './ManageUrls.vue';
 import Analytics from './Analytics.vue';
 
 const currentView = ref('shortenUrl');
+const showManageUrls = () => { currentView.value = 'manageUrls'; };
+const showShortenUrl = () => { currentView.value = 'shortenUrl'; };
+const showAnalytics = () => { currentView.value = 'analytics'; };
 
-const showManageUrls = () => {
-    currentView.value = 'manageUrls';
-};
-
-const showShortenUrl = () => {
-    currentView.value = 'shortenUrl';
-};
-
-const showAnalytics = () => {
-    currentView.value = 'analytics';
-};
-
-const { props } = usePage();
-const latestFullShortenedUrl = props.latestFullShortenedUrl || '';
-const shortUrls = props.shortUrls || [];
+const urlStore = useUrlStore();
 
 </script>
 
@@ -38,9 +28,13 @@ const shortUrls = props.shortUrls || [];
         </div>
 
         <main class="w-screen h-screen">
-            <ShortenUrl v-if="currentView === 'shortenUrl'" :latestFullShortenedUrl="latestFullShortenedUrl" />
+            <!-- <ShortenUrl v-if="currentView === 'shortenUrl'" :latestFullShortenedUrl="latestFullShortenedUrl" />
             <ManageUrls v-if="currentView === 'manageUrls'" :shortUrls="shortUrls" />
-            <analytics v-if="currentView === 'analytics'" :shortUrls="shortUrls" />
+            <Analytics v-if="currentView === 'analytics'" :shortUrls="shortUrls" /> -->
+
+            <ShortenUrl v-if="currentView === 'shortenUrl'" />
+            <ManageUrls v-if="currentView === 'manageUrls'" />
+            <Analytics v-if="currentView === 'analytics'" />
         </main>
     </AuthenticatedLayout>
 </template>
