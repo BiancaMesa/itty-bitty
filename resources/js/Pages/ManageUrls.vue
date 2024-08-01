@@ -1,6 +1,7 @@
 <script setup>
 //import { ref } from 'vue';
 import { useUrlStore } from '@/stores/urlStore';
+import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 
 const urlStore = useUrlStore();
 //const shortUrls = ref(urlStore.shortUrls);
@@ -57,6 +58,8 @@ const deleteAll = async () => {
 </script>
 
 <template>
+    <!-- <Navigation /> -->
+    <AuthenticatedLayout>
     <section class="bg-white py-16 px-4 sm:px-6 lg:px-20 min-h-screen flex flex-col">
         <h2 class="text-sky-800 pb-8 font-extrabold text-center text-3xl">Manage Your URLs</h2>
         <div v-if="urlStore.shortUrls.length === 0" class="text-center">
@@ -104,4 +107,5 @@ const deleteAll = async () => {
             </ul>
         </div>
     </section>
+</AuthenticatedLayout>
 </template>

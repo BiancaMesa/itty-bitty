@@ -2,6 +2,7 @@
 import { ref } from 'vue'; 
 import { useForm } from '@inertiajs/vue3';
 import { useUrlStore } from '@/stores/urlStore';
+//import Navigation from '@/Components/Navigation.vue';
 
 const form = useForm({
     title: '', 
@@ -29,11 +30,10 @@ const submitForm = async () => {
     form.post(route('short.url'), {
         preserveState: true, // Preserve state during the request
         onSuccess: (page) => {
-            console.log(page);
             //fullShortenedUrl.value = page.props?.shortenedUrl;
             // The new short Url is found within the page object, in the prop property, in its property shortenedUrl. 
             const newUrl = page.props.shortenedUrl;
-            console.log('The newUrl is:', newUrl);
+
             // We pass this newUrl as an argument to this function to add the newUrl in the database. 
             urlStore.addShortUrl(newUrl);
             urlStore.setLatestFullShortenedUrl(newUrl);
@@ -53,6 +53,7 @@ const copyLink = () => {
 </script>
 
 <template>
+    <!-- <Navigation /> -->
     <section class="w-screen h-screen bg-white flex flex-col items-center py-16 px-4">
         <!-- URL Shortening Form -->
         <div class="text-center w-full max-w-md mx-auto">

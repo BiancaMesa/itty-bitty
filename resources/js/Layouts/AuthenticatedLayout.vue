@@ -5,9 +5,16 @@ import Dropdown from '@/Components/Dropdown.vue';
 import DropdownLink from '@/Components/DropdownLink.vue';
 import NavLink from '@/Components/NavLink.vue';
 import ResponsiveNavLink from '@/Components/ResponsiveNavLink.vue';
-import { Link } from '@inertiajs/vue3';
+import { Link, usePage } from '@inertiajs/vue3';
 
 const showingNavigationDropdown = ref(false);
+
+const page = usePage();
+
+// const isActive = (path) => {
+//     return page.url.startsWith(path);
+// };
+
 </script>
 
 <template>
@@ -30,9 +37,39 @@ const showingNavigationDropdown = ref(false);
                             <!-- Navigation Links -->
                             <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
                                 <NavLink :href="route('dashboard')" :active="route().current('dashboard')">
-                                    Dashboard
+                                    Shorten URL
                                 </NavLink>
                             </div>
+
+                            <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
+                                <NavLink :href="route('manage.urls')" :active="route().current('manage.urls')">
+                                    Manage Your URLs
+                                </NavLink>
+                            </div>
+
+                            <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
+                                <NavLink :href="route('analytics')" :active="route().current('analytics')">
+                                    Analytics
+                                </NavLink>
+                            </div>
+
+                            <!-- <div class="py-4 bg-sky-50 flex space-x-4">
+                                <NavLink 
+                                    href="/dashboard" 
+                                    :active="isActive('/dashboard')">
+                                        Shorten URL
+                                </NavLink>
+                                <NavLink 
+                                    href="/manage-urls" 
+                                    :active="isActive('/manage-urls')">
+                                        Manage Your URLs
+                                </NavLink>
+                                <NavLink 
+                                    href="/analytics" 
+                                    :active="isActive('/analytics')">
+                                        Analytics
+                                </NavLink>
+                            </div> -->
                         </div>
 
                         <div class="hidden sm:flex sm:items-center sm:ms-6">
