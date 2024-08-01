@@ -2,8 +2,6 @@
 import { ref, onMounted } from 'vue';
 import * as echarts from 'echarts';
 import { useUrlStore } from '@/stores/urlStore';
-// import Navigation from '@/Components/Navigation.vue';
-//import Dashboard from './Dashboard.vue';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 
 const urlStore = useUrlStore();

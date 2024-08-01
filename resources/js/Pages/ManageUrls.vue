@@ -1,5 +1,5 @@
 <script setup>
-//import { ref } from 'vue';
+import { ref, onMounted } from 'vue';
 import { useUrlStore } from '@/stores/urlStore';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 
@@ -55,6 +55,12 @@ const deleteAll = async () => {
         }
     }
 }
+
+onMounted(async () => {
+    await urlStore.fetchShortUrls();
+}
+
+)
 </script>
 
 <template>
