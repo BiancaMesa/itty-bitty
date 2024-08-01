@@ -40,12 +40,13 @@ const page = usePage();
                     <div class="flex justify-between h-16">
                         <div class="flex">
                             <!-- Logo -->
-                            <div class="shrink-0 flex items-center">
+                            <div class="shrink-0 flex flex-col items-center justify-center">
                                 <Link :href="route('dashboard')">
                                     <ApplicationLogo
-                                        class="block h-9 w-auto fill-current text-gray-800"
+                                        class="block h-10 w-auto fill-current text-gray-800"
                                     />
                                 </Link>
+                                <span class="text-xs font-bold text-transparent bg-clip-text bg-gradient-to-r to-emerald-600 from-sky-400">Itty Bitty</span>
                             </div>
 
                             <!-- Navigation Links -->
