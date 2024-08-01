@@ -1,4 +1,5 @@
 <script setup>
+import { Head } from '@inertiajs/vue3';
 import { ref, onMounted } from 'vue';
 import * as echarts from 'echarts';
 import { useUrlStore } from '@/stores/urlStore';
@@ -79,8 +80,9 @@ onMounted(async () => {
 </script>
 
 <template>
+    <Head title="Analytics" />
   <AuthenticatedLayout>
-    <section class="w-full min-h-screen bg-white p-8 py-16 px-4 flex flex-col items-center">
+    <main class="w-full min-h-screen bg-white p-8 py-16 px-4 flex flex-col items-center">
       <h1 class="text-3xl font-bold mb-4 text-sky-800">URL Analytics</h1>
 
       <!-- ECharts Container -->
@@ -113,6 +115,6 @@ onMounted(async () => {
           </tbody>
         </table>
       </div>
-    </section>
+    </main>
   </AuthenticatedLayout>
 </template>

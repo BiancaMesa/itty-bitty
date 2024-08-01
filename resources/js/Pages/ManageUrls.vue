@@ -1,4 +1,5 @@
 <script setup>
+import { Head } from '@inertiajs/vue3';
 import { ref, onMounted } from 'vue';
 import { useUrlStore } from '@/stores/urlStore';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
@@ -64,9 +65,9 @@ onMounted(async () => {
 </script>
 
 <template>
-    <!-- <Navigation /> -->
+    <Head title="Manage Your URLs" />
     <AuthenticatedLayout>
-    <section class="bg-white py-16 px-4 sm:px-6 lg:px-20 min-h-screen flex flex-col">
+    <main class="bg-white py-16 px-4 sm:px-6 lg:px-20 min-h-screen flex flex-col">
         <h2 class="text-sky-800 pb-8 font-extrabold text-center text-3xl">Manage Your URLs</h2>
         <div v-if="urlStore.shortUrls.length === 0" class="text-center">
             <p>You have no URLs to manage.</p>
@@ -112,6 +113,6 @@ onMounted(async () => {
                 </li>
             </ul>
         </div>
-    </section>
+    </main>
 </AuthenticatedLayout>
 </template>

@@ -2,7 +2,7 @@
 import { ref } from 'vue'; 
 import { useForm } from '@inertiajs/vue3';
 import { useUrlStore } from '@/stores/urlStore';
-//import Navigation from '@/Components/Navigation.vue';
+//import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 
 const form = useForm({
     title: '', 
@@ -53,8 +53,8 @@ const copyLink = () => {
 </script>
 
 <template>
-    <!-- <Navigation /> -->
-    <section class="w-screen h-screen bg-white flex flex-col items-center py-16 px-4">
+    <!-- <AuthenticatedLayout> -->
+    <main class="w-screen h-screen bg-white flex flex-col items-center py-16 px-4">
         <!-- URL Shortening Form -->
         <div class="text-center w-full max-w-md mx-auto">
             <h1 class="text-sky-800 mb-4 font-extrabold text-3xl lg:text-3xl ">Enter Your Long URL:</h1>
@@ -106,5 +106,6 @@ const copyLink = () => {
                 Copy Link
             </button>
         </div>
-    </section>
+    </main>
+    <!-- </AuthenticatedLayout> -->
 </template>

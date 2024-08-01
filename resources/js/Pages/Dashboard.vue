@@ -25,7 +25,7 @@ const urlStore = useUrlStore();
 </script>
 
 <template>
-    <!-- <Head title="Dashboard" /> -->
+    <Head title="Shorten URL" />
     <AuthenticatedLayout>
 
         <main class="w-screen h-screen">

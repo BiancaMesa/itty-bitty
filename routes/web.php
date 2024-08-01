@@ -42,12 +42,6 @@ Route::middleware('auth')->group(function () {
 
     // API route to fetch all short URLs 
     Route::get('/short-urls', [ShortUrlController::class, 'getShortUrls'])->name('short.urls');
-
-
-    // 
-    // Route::get('/shorten-url', [ShortUrlController::class, 'index'])->name('shorten.url');
-    // Route::get('/manage-urls', [ShortUrlController::class, 'index'])->name('manage.urls');
-    // Route::get('/analytics', [ShortUrlController::class, 'index'])->name('analytics'); 
 });
 
 //Public route for shortened URL

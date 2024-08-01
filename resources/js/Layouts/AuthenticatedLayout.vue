@@ -6,6 +6,7 @@ import DropdownLink from '@/Components/DropdownLink.vue';
 import NavLink from '@/Components/NavLink.vue';
 import ResponsiveNavLink from '@/Components/ResponsiveNavLink.vue';
 import { Link, usePage } from '@inertiajs/vue3';
+//import { useUrlStore } from '@/stores/urlStore';
 
 const showingNavigationDropdown = ref(false);
 
@@ -14,6 +15,19 @@ const page = usePage();
 // const isActive = (path) => {
 //     return page.url.startsWith(path);
 // };
+
+// const currentView = ref('shortenUrl');
+
+//Methods to switch views
+// const showView = (view) => { currentView.value = view};
+
+// const views = {
+//     shortenUrl: 'Shorten URL', 
+//     manageUrls: 'Manage Your URLs',
+//     analytics: 'Analytics'
+// };
+
+// const urlStore = useUrlStore();
 
 </script>
 
@@ -160,6 +174,9 @@ const page = usePage();
 
             <!-- Page Content -->
             <main>
+                <!-- <ShortenUrl v-if="currentView === 'shortenUrl'" />
+                <ManageUrls v-if="currentView === 'manageUrls'" />
+                <Analytics v-if="currentView === 'analytics'" /> -->
                 <slot />
             </main>
         </div>
