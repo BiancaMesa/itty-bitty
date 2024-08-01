@@ -57,7 +57,9 @@ const copyLink = () => {
     <main class="w-screen h-screen bg-white flex flex-col items-center py-16 px-4">
         <!-- URL Shortening Form -->
         <div class="text-center w-full max-w-md mx-auto">
-            <h1 class="text-sky-800 mb-4 font-extrabold text-3xl lg:text-3xl ">Enter Your Long URL:</h1>
+            <h1 class="mb-8 text-sky-800 mb-4 font-extrabold text-3xl lg:text-3xl "> Enter Your Long URL:</h1>
+            <!-- <h1 class="mb-4 font-extrabold text-3xl lg:text-3xl text-transparent bg-clip-text bg-gradient-to-r to-emerald-600 from-sky-400"> Enter Your Long URL:</h1> -->
+            <!-- <span class="text-transparent bg-clip-text bg-gradient-to-r to-emerald-600 from-sky-400">Itty Bitty</span> -->
             <form class="flex flex-col gap-4 w-full mx-auto" @submit.prevent="submitForm">
                 <input 
                     class="border border-gray-300 rounded-lg w-full p-3 text-sm md:text-base"
@@ -88,7 +90,8 @@ const copyLink = () => {
 
         <!-- Display latest shortened URL -->
         <div class="text-center w-full max-w-md mx-auto mt-16">
-            <h3 class="font-semibold mb-4 text-cyan-700 text-3xl lg:text-3xl">Your Shortened URL:</h3>
+            <!-- <h3 class="font-semibold mb-4 text-cyan-700 text-3xl lg:text-3xl">Your Shortened URL:</h3> -->
+            <h3 class="mb-4 font-extrabold text-3xl lg:text-3xl text-transparent bg-clip-text bg-gradient-to-r to-emerald-600 from-sky-400">Your Shortened URL:</h3>
             <span class="block px-6 py-3 rounded border border-gray-300 rounded-lg bg-white text-gray-900 font-bold mx-auto w-full overflow-hidden text-ellipsis whitespace-nowrap hover:text-sky-600">
                 <a 
                 class="bg-white text-gray-900 font-bold mx-auto w-full overflow-hidden text-ellipsis whitespace-nowrap hover:text-sky-600"
@@ -102,7 +105,7 @@ const copyLink = () => {
 
         <!-- Copy to Clipboard Button -->
         <div class="text-center mt-6">
-            <button class="px-6 py-2 bg-emerald-100 font-bold text-gray-700 hover:bg-emerald-200 hover:text-gray-800 rounded-lg text-sm md:text-base" @click="copyLink">
+            <button class="px-6 py-2 bg-emerald-50 font-bold text-gray-700 hover:bg-emerald-100 hover:text-gray-800 rounded-lg text-sm md:text-base" @click="copyLink">
                 Copy Link
             </button>
         </div>
