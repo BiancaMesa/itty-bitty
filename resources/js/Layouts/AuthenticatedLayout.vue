@@ -6,28 +6,10 @@ import DropdownLink from '@/Components/DropdownLink.vue';
 import NavLink from '@/Components/NavLink.vue';
 import ResponsiveNavLink from '@/Components/ResponsiveNavLink.vue';
 import { Link, usePage } from '@inertiajs/vue3';
-//import { useUrlStore } from '@/stores/urlStore';
 
 const showingNavigationDropdown = ref(false);
 
 const page = usePage();
-
-// const isActive = (path) => {
-//     return page.url.startsWith(path);
-// };
-
-// const currentView = ref('shortenUrl');
-
-//Methods to switch views
-// const showView = (view) => { currentView.value = view};
-
-// const views = {
-//     shortenUrl: 'Shorten URL', 
-//     manageUrls: 'Manage Your URLs',
-//     analytics: 'Analytics'
-// };
-
-// const urlStore = useUrlStore();
 
 </script>
 
@@ -35,6 +17,7 @@ const page = usePage();
     <div>
         <div class="min-h-screen bg-gray-100">
             <nav class="bg-white border-b border-gray-100">
+
                 <!-- Primary Navigation Menu -->
                 <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                     <div class="flex justify-between h-16">
@@ -67,28 +50,10 @@ const page = usePage();
                                     Analytics
                                 </NavLink>
                             </div>
-
-                            <!-- <div class="py-4 bg-sky-50 flex space-x-4">
-                                <NavLink 
-                                    href="/dashboard" 
-                                    :active="isActive('/dashboard')">
-                                        Shorten URL
-                                </NavLink>
-                                <NavLink 
-                                    href="/manage-urls" 
-                                    :active="isActive('/manage-urls')">
-                                        Manage Your URLs
-                                </NavLink>
-                                <NavLink 
-                                    href="/analytics" 
-                                    :active="isActive('/analytics')">
-                                        Analytics
-                                </NavLink>
-                            </div> -->
                         </div>
 
+                         <!-- Account Settings Dropdown -->
                         <div class="hidden sm:flex sm:items-center sm:ms-6">
-                            <!-- Settings Dropdown -->
                             <div class="ms-3 relative">
                                 <Dropdown align="right" width="48">
                                     <template #trigger>
@@ -99,18 +64,6 @@ const page = usePage();
                                             >
                                                 {{ $page.props.auth.user.name }}
 
-                                                <svg
-                                                    class="ms-2 -me-0.5 h-4 w-4"
-                                                    xmlns="http://www.w3.org/2000/svg"
-                                                    viewBox="0 0 20 20"
-                                                    fill="currentColor"
-                                                >
-                                                    <path
-                                                        fill-rule="evenodd"
-                                                        d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
-                                                        clip-rule="evenodd"
-                                                    />
-                                                </svg>
                                             </button>
                                         </span>
                                     </template>
@@ -125,12 +78,13 @@ const page = usePage();
                             </div>
                         </div>
 
-                        <!-- Hamburger -->
+                        <!-- Hamburger icon -->
                         <div class="-me-2 flex items-center sm:hidden">
                             <button
                                 @click="showingNavigationDropdown = !showingNavigationDropdown"
-                                class="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 focus:text-gray-500 transition duration-150 ease-in-out"
+                                class="inline-flex items-center justify-center p-2 rounded-md text-gray-400" 
                             >
+                                <font-awesome-icon :icon="showingNavigationDropdown ? 'times' : 'bars'" class="h-7 w-7 text-gray-400 " />
                             </button>
                         </div>
                     </div>
@@ -143,17 +97,27 @@ const page = usePage();
                 >
                     <div class="pt-2 pb-3 space-y-1">
                         <ResponsiveNavLink :href="route('dashboard')" :active="route().current('dashboard')">
-                            Dashboard
+                            Shorten URL
+                        </ResponsiveNavLink>
+                    </div>
+                    <div class="pt-2 pb-3 space-y-1">
+                        <ResponsiveNavLink :href="route('manage.urls')" :active="route().current('manage.urls')">
+                            Manage Your URLs
+                        </ResponsiveNavLink>
+                    </div>
+                    <div class="pt-2 pb-3 space-y-1">
+                        <ResponsiveNavLink :href="route('analytics')" :active="route().current('analytics')">
+                            Analytics
                         </ResponsiveNavLink>
                     </div>
 
-                    <!-- Responsive Settings Options -->
-                    <div class="pt-4 pb-1 border-t border-gray-200">
+                    <!-- Responsive Account Options -->
+                    <div class="pt-4 pb-1 border-t border-gray-100">
                         <div class="px-4">
-                            <div class="font-medium text-base text-gray-800">
-                                {{ $page.props.auth.user.name }}
+                            <div class="font-bold text-center text-transparent bg-clip-text bg-gradient-to-r to-emerald-600 from-sky-400">
+                                {{ $page.props.auth.user.name }}'s account:
                             </div>
-                            <div class="font-medium text-sm text-gray-500">{{ $page.props.auth.user.email }}</div>
+                            <!-- <div class="font-medium text-center text-sm text-gray-500">{{ $page.props.auth.user.email }}</div> -->
                         </div>
 
                         <div class="mt-3 space-y-1">
