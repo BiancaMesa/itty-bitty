@@ -112,10 +112,11 @@ const page = usePage();
                     </div>
 
                     <!-- Responsive Account Options -->
-                    <div class="pt-4 pb-1 border-t border-gray-100">
+                    <div class="pt-4 pb-1 border-t border-gray-100 bg-sky-50">
                         <div class="px-4">
-                            <div class="font-bold text-center text-transparent bg-clip-text bg-gradient-to-r to-emerald-600 from-sky-400">
-                                {{ $page.props.auth.user.name }}'s account:
+                            <h2 class="text-center pb-4 font-bold text-2xl">Your Account</h2>
+                            <div class="font-bold text-center text-lg text-transparent bg-clip-text bg-gradient-to-r to-emerald-600 from-sky-400">
+                                Hey {{ $page.props.auth.user.name }}!
                             </div>
                             <!-- <div class="font-medium text-center text-sm text-gray-500">{{ $page.props.auth.user.email }}</div> -->
                         </div>
