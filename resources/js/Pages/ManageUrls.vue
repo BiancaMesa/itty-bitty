@@ -117,6 +117,9 @@ onMounted(async () => {
 
             <!-- Pagination -->
             <div class="mt-8 flex justify-center items-center">
+                <Link v-if="page.props.shortUrls.prev_page_url" :href="$page.props.shortUrls.first_page_url" class="mr-2 py-2">
+                    <font-awesome-icon icon="angles-left" class="text-lg text-gray-300 hover:text-gray-400" />
+                </Link>
                 <Link v-if="page.props.shortUrls.prev_page_url" :href="$page.props.shortUrls.prev_page_url" class="mr-2 px-4 py-2">
                     <font-awesome-icon icon="chevron-left" class="text-lg text-gray-300 hover:text-gray-400" />
                 </Link>
@@ -125,6 +128,10 @@ onMounted(async () => {
 
                 <Link v-if="page.props.shortUrls.next_page_url" :href="$page.props.shortUrls.next_page_url" class="ml-2 px-4 py-2">
                     <font-awesome-icon icon="chevron-right" class="text-lg text-gray-300 hover:text-gray-400" />
+                </Link>
+
+                <Link v-if="page.props.shortUrls.next_page_url" :href="$page.props.shortUrls.last_page_url" class="ml-2 py-2">
+                    <font-awesome-icon icon="angles-right" class="text-lg text-gray-300 hover:text-gray-400" />
                 </Link>
             </div>
         </div>
