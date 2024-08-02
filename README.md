@@ -1,14 +1,14 @@
-<!-- <p align="center">
+<p align="center">
 <img src="./public/itty_bitty_logo.png" width="100">
-</p> -->
+</p>
 
-# Itty Bitty <img src="./public/itty_bitty_logo.png" width="50">
-## A URL Shortener Web Application with Laravel, Vue and Inertia.js
+# Itty Bitty
+## A URL Shortener Web Application created with Laravel, Vue and Inertia.js
 
 Welcome to the URL Shortener project! This project is a web application built using Laravel, Vue.js, and Inertia.js. It allows users to shorten URLs, manage their shortened URLs, and view analytics on URL clicks. Users must be registered and logged in to use the URL shortening service.
 
 
-## Table of Contents 📋 📖
+## Table of Contents 📖
 
 - [Tecnologies Used](#tecnologies)
 - [Features](#features)
@@ -19,9 +19,9 @@ Welcome to the URL Shortener project! This project is a web application built us
 ## Technologies Used 🚀
 - <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQMoO1kQEm6tKiQbd-moXfnmzFakSSyYPpdIw&s" alt="laravel logo" width="20">  **Laravel**  
 - <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSRLVaPhBNOB77faiQJu1EBD1kRWNu4xLgkiw&s" alt="vue logo" width="20">  **Vue.js**  
-<img src="https://raw.githubusercontent.com/innocenzi/awesome-inertiajs/main/assets/logo.svg" alt="inertia logo" width="20">  **Inertia.js**  
-<img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQNhoXisDruJMDAq3Ltd-wuaMW2lGxck9wAKw&s" alt="tailwind logo" width="20">  **Tailwind CSS**  
-<img src="https://cdn.iconscout.com/icon/free/png-256/free-sqlite-282687.png?f=webp" alt="sqlite logo" width="20">  **SQLite**  
+- <img src="https://raw.githubusercontent.com/innocenzi/awesome-inertiajs/main/assets/logo.svg" alt="inertia logo" width="20">  **Inertia.js**  
+- <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQNhoX-isDruJMDAq3Ltd-wuaMW2lGxck9wAKw&s" alt="tailwind logo" width="20">  **Tailwind CSS**  
+- <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/97/Sqlite-square-icon.svg/1200px-Sqlite-square-icon.svg.png" alt="sqlite logo" width="20">  **SQLite**  
 
 ## Features
 - **User Authentication:** Users can register, log in, and manage their profiles.
