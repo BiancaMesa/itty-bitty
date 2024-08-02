@@ -1,11 +1,11 @@
 <script setup>
-import { Head } from '@inertiajs/vue3';
-import { ref, onMounted } from 'vue';
+import { onMounted } from 'vue';
+import { Head, Link, usePage } from '@inertiajs/vue3';
 import { useUrlStore } from '@/stores/urlStore';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 
 const urlStore = useUrlStore();
-//const shortUrls = ref(urlStore.shortUrls);
+const page = usePage();
 
 const deleteUrl = async (id) => {
     if (confirm('Are you sure you want to delete this URL?')) {
@@ -58,9 +58,9 @@ const deleteAll = async () => {
 }
 
 onMounted(async () => {
+    // console.log('Page info:', page);
     await urlStore.fetchShortUrls();
 }
-
 )
 </script>
 
@@ -69,7 +69,8 @@ onMounted(async () => {
     <AuthenticatedLayout>
     <main class="bg-white py-16 px-4 sm:px-6 lg:px-20 min-h-screen flex flex-col">
         <h2 class="text-sky-800 pb-8 font-extrabold text-center text-3xl">Manage Your URLs</h2>
-        <div v-if="urlStore.shortUrls.length === 0" class="text-center">
+        <!-- <div v-if="urlStore.shortUrls.length === 0" class="text-center"> -->
+        <div v-if="!$page.props.shortUrls.data.length" class="text-center">
             <p>You have no URLs to manage.</p>
         </div>
         <div v-else>
@@ -77,7 +78,8 @@ onMounted(async () => {
                 <button class="border border-gray-300 px-6 py-2 rounded mb-4 font-bold bg-emerald-50 hover:text-red-400 hover:bg-white hover:border-red-200" @click="deleteAll" >Delete All</button>
             </div>
             <ul>
-                <li v-for="url in urlStore.shortUrls" :key="url.id" class="mb-4">
+                <!-- <li v-for="url in urlStore.shortUrls" :key="url.id" class="mb-4"> -->
+                <li v-for="url in page.props.shortUrls.data" :key="url.id" class="mb-4">
                     <div class="flex sm:flex-row items-start sm:items-center justify-between p-4 border border-gray-300 rounded-lg bg-white">
                         <div class="flex-1 w-full sm:w-auto">
                             <p><strong>Name:</strong> 
@@ -112,6 +114,19 @@ onMounted(async () => {
                     </div>
                 </li>
             </ul>
+
+            <!-- Pagination -->
+            <div class="mt-8 flex justify-center items-center">
+                <Link v-if="page.props.shortUrls.prev_page_url" :href="$page.props.shortUrls.prev_page_url" class="mr-2 px-4 py-2">
+                    <font-awesome-icon icon="chevron-left" class="text-lg text-gray-300 hover:text-gray-400" />
+                </Link>
+
+                <p>{{ page.props.shortUrls.current_page }} of {{ page.props.shortUrls.last_page }}</p>
+
+                <Link v-if="page.props.shortUrls.next_page_url" :href="$page.props.shortUrls.next_page_url" class="ml-2 px-4 py-2">
+                    <font-awesome-icon icon="chevron-right" class="text-lg text-gray-300 hover:text-gray-400" />
+                </Link>
+            </div>
         </div>
     </main>
 </AuthenticatedLayout>

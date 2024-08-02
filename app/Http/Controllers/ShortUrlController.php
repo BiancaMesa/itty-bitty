@@ -99,7 +99,8 @@ class ShortUrlController extends Controller
     public function manageUrls()
     {
         $user = auth()->user();
-        $shortUrls = ShortUrl::where('user_id', $user->id)->get();
+        // $shortUrls = ShortUrl::where('user_id', $user->id)->get();
+        $shortUrls = ShortUrl::where('user_id', $user->id)->paginate(10);
         return Inertia::render('ManageUrls', [
             'shortUrls' => $shortUrls,
         ]);
