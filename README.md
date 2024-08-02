@@ -1,8 +1,8 @@
-<p align="center">
+<!-- <p align="center">
 <img src="./public/itty_bitty_logo.png" width="100">
-</p>
+</p> -->
 
-# Itty Bitty 🌐 <img src="./public/itty_bitty_logo.png" width="50">
+# Itty Bitty <img src="./public/itty_bitty_logo.png" width="50">
 ## A URL Shortener Web Application with Laravel, Vue and Inertia.js
 
 Welcome to the URL Shortener project! This project is a web application built using Laravel, Vue.js, and Inertia.js. It allows users to shorten URLs, manage their shortened URLs, and view analytics on URL clicks. Users must be registered and logged in to use the URL shortening service.
@@ -17,11 +17,11 @@ Welcome to the URL Shortener project! This project is a web application built us
 - [Project Structure](#project-structure)
 
 ## Technologies Used 🚀
-- <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQMoO1kQEm6tKiQbd-moXfnmzFakSSyYPpdIw&s" alt="laravel logo" width="20">  **Laravel**
-- <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSRLVaPhBNOB77faiQJu1EBD1kRWNu4xLgkiw&s" alt="vue logo" width="20">  **Vue.js**
-<img src="https://raw.githubusercontent.com/innocenzi/awesome-inertiajs/main/assets/logo.svg" alt="inertia logo" width="20">  **Inertia.js**
-<img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQNhoXisDruJMDAq3Ltd-wuaMW2lGxck9wAKw&s" alt="tailwind logo" width="20">  **Tailwind CSS**
-<img src="https://cdn.iconscout.com/icon/free/png-256/free-sqlite-282687.png?f=webp" alt="sqlite logo" width="20">  **SQLite**
+- <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQMoO1kQEm6tKiQbd-moXfnmzFakSSyYPpdIw&s" alt="laravel logo" width="20">  **Laravel**  
+- <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSRLVaPhBNOB77faiQJu1EBD1kRWNu4xLgkiw&s" alt="vue logo" width="20">  **Vue.js**  
+<img src="https://raw.githubusercontent.com/innocenzi/awesome-inertiajs/main/assets/logo.svg" alt="inertia logo" width="20">  **Inertia.js**  
+<img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQNhoXisDruJMDAq3Ltd-wuaMW2lGxck9wAKw&s" alt="tailwind logo" width="20">  **Tailwind CSS**  
+<img src="https://cdn.iconscout.com/icon/free/png-256/free-sqlite-282687.png?f=webp" alt="sqlite logo" width="20">  **SQLite**  
 
 ## Features
 - **User Authentication:** Users can register, log in, and manage their profiles.
@@ -58,7 +58,7 @@ To get started with this project, follow these steps:
     ```
 
 
-## Usage 🤓
+## Usage 
 1. **Register/Login:** Create a new account or log in with existing credentials.
 2. **Shorten a URL:** Navigate to the dashboard and enter the original URL and a title to generate a shortened URL.
 3. **Manage URLs:** View, copy, or delete your shortened URLs from the dashboard.
@@ -68,7 +68,7 @@ To get started with this project, follow these steps:
 # Project Structure 🔭
 The project has been vuilt using the Laravel starter kit with Vue.js and Inertia.js. 
 
-## Backend ⚙️🗄️🔙
+## Backend 🗄️🔙
 The database of choice for this project has been SQLite and TablePlus has been used as a tool to manage the databse.
 For the project, two tables have been created in the database. One with the information of the user and another one with the information of the URLs: the original URL, the title, the shortened URL and its unique key, the number of clicks, and the user_id (which relates both tables). The relation between those tables has been one to many, so one user can have many URLs but each URL is linked to one user. 
 
