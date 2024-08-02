@@ -16,11 +16,11 @@ Welcome to the URL Shortener project! This project is a web application built us
 - [Usage](#usage)
 - [Project Structure](#project-structure)
 
-## Technologies Used 🚀
+## Technologies Used 
 - <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQMoO1kQEm6tKiQbd-moXfnmzFakSSyYPpdIw&s" alt="laravel logo" width="20">  **Laravel**  
 - <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSRLVaPhBNOB77faiQJu1EBD1kRWNu4xLgkiw&s" alt="vue logo" width="20">  **Vue.js**  
 - <img src="https://raw.githubusercontent.com/innocenzi/awesome-inertiajs/main/assets/logo.svg" alt="inertia logo" width="20">  **Inertia.js**  
-- <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQNhoX-isDruJMDAq3Ltd-wuaMW2lGxck9wAKw&s" alt="tailwind logo" width="20">  **Tailwind CSS**  
+- <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQNhoXisDruJMDAq3Ltd-wuaMW2lGxck9wAKw&s" alt="tailwind logo" width="20">  **Tailwind CSS**  
 - <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/97/Sqlite-square-icon.svg/1200px-Sqlite-square-icon.svg.png" alt="sqlite logo" width="20">  **SQLite**  
 
 ## Features
@@ -37,7 +37,7 @@ To get started with this project, follow these steps:
 2. **Install dependencies:**  
 ```composer install```  
 ```npm install```
-3. **Set up environment variables**
+3. **Set up environment variables**  
 ```cp .env.example .env```
 ```php artisan key:generate```
 4. **Configure your database in `.env` file:**  
@@ -58,7 +58,7 @@ To get started with this project, follow these steps:
     ```
 
 
-## Usage 
+## Usage 🚀
 1. **Register/Login:** Create a new account or log in with existing credentials.
 2. **Shorten a URL:** Navigate to the dashboard and enter the original URL and a title to generate a shortened URL.
 3. **Manage URLs:** View, copy, or delete your shortened URLs from the dashboard.
