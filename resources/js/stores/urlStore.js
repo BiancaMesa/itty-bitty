@@ -6,6 +6,7 @@ export const useUrlStore = defineStore('urlStore', {
   state: () => ({
     shortUrls: [],
     latestFullShortenedUrl: '',
+    // pagination: {}
   }),
 
   // methods 
@@ -34,5 +35,8 @@ export const useUrlStore = defineStore('urlStore', {
     deleteAllShortUrls() {
         this.shortUrls = [];
     },
+    // setPagination(pagination) {
+    //   this.pagination = pagination;
+    // }
   },
 });

@@ -109,7 +109,8 @@ class ShortUrlController extends Controller
     public function analytics()
     {
         $user = auth()->user();
-        $shortUrls = ShortUrl::where('user_id', $user->id)->get(['title', 'original_url', 'full_shortened_url', 'clicks']);
+        // $shortUrls = ShortUrl::where('user_id', $user->id)->get(['title', 'original_url', 'full_shortened_url', 'clicks']);
+        $shortUrls = ShortUrl::where('user_id', $user->id)->paginate(10);
 
         return Inertia::render('Analytics', [
             'shortUrls' => $shortUrls,

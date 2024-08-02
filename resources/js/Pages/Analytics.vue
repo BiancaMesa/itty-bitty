@@ -1,30 +1,29 @@
 <script setup>
-import { Head } from '@inertiajs/vue3';
+import { Head, Link, usePage } from '@inertiajs/vue3';
 import { ref, onMounted } from 'vue';
 import * as echarts from 'echarts';
 import { useUrlStore } from '@/stores/urlStore';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 
 const urlStore = useUrlStore();
+const page = usePage();
 
-// Reference to the ECharts container
+console.log('Page props:', page.props.shortUrls);
+
+
 const chartContainer = ref(null);
 let chart = null;
 
-// Function to initialize and update the chart
 const initChart = () => {
   if (!chartContainer.value) return;
 
-  // Initialize ECharts or get the existing instance
   if (!chart) {
     chart = echarts.init(chartContainer.value);
   }
 
-  // Prepare data for the chart
   const labels = urlStore.shortUrls.map(url => url.title);
   const data = urlStore.shortUrls.map(url => url.clicks);
 
-  // Set chart options
   const options = {
     title: {
       text: 'Number of Clicks per URL',
@@ -36,9 +35,8 @@ const initChart = () => {
       type: 'category',
       data: labels,
       axisLabel: {
-        rotate: 45, // Labels will appear rotated
+        rotate: 45, 
         formatter: (value) => {
-          // Truncate the URL for display purposes with an ellipsis
           return value.length > 50 ? `${value.substring(0, 50)}...` : value;
         },
       },
@@ -62,14 +60,15 @@ const initChart = () => {
   chart.setOption(options);
 };
 
-// Initialize the chart and set up watchers
+// const fetchUrls = async (url) => {
+//   await urlStore.fetchShortUrls(url);
+// };
+
 onMounted(async () => {
   await urlStore.fetchShortUrls();
 
-  // Initialize the chart
   initChart();
 
-  // Handle window resize events
   window.addEventListener('resize', () => {
     if (chart) {
       chart.resize();
@@ -102,7 +101,8 @@ onMounted(async () => {
             </tr>
           </thead>
           <tbody class="bg-white text-sm">
-            <tr v-for="shortUrl in urlStore.shortUrls" :key="shortUrl.id">
+            <!-- <tr v-for="shortUrl in urlStore.shortUrls" :key="shortUrl.id"> -->
+            <tr v-for="shortUrl in page.props.shortUrls.data" :key="shortUrl.id">
               <td class="py-2 px-4 border-b break-words">{{ shortUrl.title }}</td>
               <td class="py-2 px-4 border-b break-words">{{ shortUrl.original_url }}</td>
               <td class="py-2 px-4 border-b break-words">
@@ -114,6 +114,25 @@ onMounted(async () => {
             </tr>
           </tbody>
         </table>
+
+         <!-- Pagination -->
+         <div class="mt-8 flex justify-center items-center">
+                <Link v-if="page.props.shortUrls.prev_page_url" :href="$page.props.shortUrls.first_page_url" class="mr-2 py-2">
+                    <font-awesome-icon icon="angles-left" class="text-lg text-gray-300 hover:text-gray-400" />
+                </Link>
+                <Link v-if="page.props.shortUrls.prev_page_url" :href="$page.props.shortUrls.prev_page_url" class="mr-2 px-4 py-2">
+                    <font-awesome-icon icon="chevron-left" class="text-lg text-gray-300 hover:text-gray-400" />
+                </Link>
+
+                <p>{{ page.props.shortUrls.current_page }} of {{ page.props.shortUrls.last_page }}</p>
+
+                <Link v-if="page.props.shortUrls.next_page_url" :href="$page.props.shortUrls.next_page_url" class="ml-2 px-4 py-2">
+                    <font-awesome-icon icon="chevron-right" class="text-lg text-gray-300 hover:text-gray-400" />
+                </Link>
+                <Link v-if="page.props.shortUrls.next_page_url" :href="$page.props.shortUrls.last_page_url" class="ml-2 py-2">
+                    <font-awesome-icon icon="angles-right" class="text-lg text-gray-300 hover:text-gray-400" />
+                </Link>
+            </div>
       </div>
     </main>
   </AuthenticatedLayout>
