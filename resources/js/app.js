@@ -4,6 +4,7 @@ import '../css/app.css';
 import { createApp, h } from 'vue';
 import { createInertiaApp } from '@inertiajs/vue3';
 import { resolvePageComponent } from 'laravel-vite-plugin/inertia-helpers';
+import { ZiggyVue } from '@tightenco/ziggy';
 import { createPinia } from 'pinia';
 
 // Import Font Awesome
@@ -26,6 +27,7 @@ createInertiaApp({
         const pinia = createPinia();
         return createApp({ render: () => h(App, props) })
             .use(plugin)
+            .use(ZiggyVue)
             .use(pinia)
             .component('font-awesome-icon', FontAwesomeIcon) // Register FontAwesomeIcon component globally
             .mount(el);
