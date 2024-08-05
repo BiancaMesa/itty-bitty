@@ -1,0 +1,1 @@
+import{_ as o}from"./_plugin-vue_export-helper-DlAUqK2U.js";import{o as t,f as s}from"./app-BRK3iOnS.js";const c="/build/assets/itty_bitty_logo-Bv57Jajh.png",e={},r={src:c,alt:"logo"};function _(n,i){return t(),s("img",r)}const l=o(e,[["render",_]]);export{l as A};
