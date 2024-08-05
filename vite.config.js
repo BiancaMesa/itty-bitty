@@ -16,10 +16,10 @@ export default defineConfig({
     ],
     build: {
         outDir: 'dist', // Ensure the output directory is set to 'dist'
-        // rollupOptions: {
-        //     external: [
-        //         'ziggy',
-        //     ],
-        // },
+        rollupOptions: {
+            external: [
+                'ziggy',
+            ],
+        },
     },
 });
