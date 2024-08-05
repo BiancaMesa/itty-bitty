@@ -1,6 +1,6 @@
 {
     "version": 2,
-      "framework": null,
+      "framework": null, 
     "functions": {
         "api/index.php": { "runtime": "vercel-php@0.6.0" }
     },
@@ -11,7 +11,7 @@
     "env": {
         "APP_ENV": "production",
         "APP_DEBUG": "true",
-        "APP_URL": "https://https://itty-bitty-url.vercel.app",
+        "APP_URL": "https://itty-bitty-url.vercel.app",
         "APP_KEY": "base64:g+KymFVZn68vtVs0hv93Tz5e88KoqF2cVpARwRYbs5s=",
 
         "APP_CONFIG_CACHE": "/tmp/config.php",
